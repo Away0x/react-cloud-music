@@ -2,7 +2,7 @@
 
 ## storybook
 
-### 环境
+### init
 
 ```bash
 npx -p @storybook/cli sb init
@@ -10,7 +10,7 @@ npx -p @storybook/cli sb init
 
 ## hygen
 
-### 环境
+### init
 
 ```bash
 npm i -g hygen
