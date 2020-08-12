@@ -4,7 +4,7 @@ import { useImmer } from 'use-immer';
 
 import { TokenStorage } from 'services/storage/token';
 import { authEventEmitter } from 'events/auth';
-import { loginService } from 'services/auth';
+import { loginService } from 'services';
 
 type LoginParams = {
   username: string;
@@ -75,21 +75,21 @@ function useAuth(initialState?: AuthState | null): UseAuth {
 
   const loginAction = useCallback(
     async (loginInfo: LoginParams): Promise<boolean> => {
-      const { status, message, data, token } = await loginService(loginInfo.username, loginInfo.password);
+      const { status, message, data } = await loginService(loginInfo.username, loginInfo.password);
 
       if (!status) {
         alert(message);
         return false;
       }
-      if (!token) {
+      if (!data.token) {
         alert('token not found!');
         return false;
       }
 
-      TokenStorage.set(token);
+      TokenStorage.set(data.token);
       updateAuthState((state) => {
-        state.token = token;
-        state.userData = data;
+        state.token = data.token;
+        state.userData = data.user;
       });
       return true;
     },

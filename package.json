@@ -10,7 +10,9 @@
     "report": "react-app-rewired build --analyze",
     "storybook": "start-storybook -p 9009 -s public",
     "build-storybook": "build-storybook -s public",
-    "g-component": "hygen component new",
+    "new:component": "hygen component new",
+    "new:page": "hygen page new",
+    "new:layout": "hygen layout new",
     "commit": "git-cz"
   },
   "dependencies": {
@@ -28,7 +30,9 @@
     "react-dom": "^16.13.1",
     "react-error-boundary": "^2.3.1",
     "react-router-dom": "^5.2.0",
+    "react-spring": "^8.0.27",
     "styled-components": "^5.1.1",
+    "swiper": "^6.1.1",
     "unstated-next": "^1.1.0",
     "use-immer": "^0.4.1"
   },

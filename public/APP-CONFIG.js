@@ -7,7 +7,7 @@
   'APP_CONFIG',
   function () {
     return {
-      API_ROOT: 'http://localhost:3000',
+      API_ROOT: 'http://47.98.159.95/m-api',
 
       // ---------------------------- key ----------------------------
       LOCALSTROAGE_PREFIX: 'react_cloud_music_app_', // localstroage prefix

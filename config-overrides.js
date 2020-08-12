@@ -27,9 +27,11 @@ function yymmddhhmmss(date_obj, delimiter = '-') {
 const env_map = {
   version: '1.0.0',
   branche: 'master',
-  buildtime: yymmddhhmmss(new Date()),
+  build_time: yymmddhhmmss(new Date()),
   desc: '',
 };
+
+Object.keys(env_map).forEach(k => env_map[k] = JSON.stringify(env_map[k]));
 
 module.exports = override(
   addBabelPlugins(['babel-plugin-styled-components']),

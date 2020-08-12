@@ -1,5 +1,7 @@
 # react-cloud-music
 
+> 代码参考 https://github.com/sanyuan0704/react-cloud-music
+
 ## storybook
 
 ### init
@@ -16,5 +18,5 @@ npx -p @storybook/cli sb init
 npm i -g hygen
 cd project
 hygen init self
-hygen new component # 创建 component 命令
+hygen generator new component # 创建 component 命令
 ```

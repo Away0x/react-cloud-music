@@ -5360,6 +5360,13 @@ dom-walk@^0.1.0:
   resolved "https://registry.npm.taobao.org/dom-walk/download/dom-walk-0.1.2.tgz?cache=0&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fdom-walk%2Fdownload%2Fdom-walk-0.1.2.tgz#0c548bef048f4d1f2a97249002236060daa3fd84"
   integrity sha1-DFSL7wSPTR8qlySQAiNgYNqj/YQ=
 
+dom7@^3.0.0-alpha.7:
+  version "3.0.0-alpha.7"
+  resolved "https://registry.npm.taobao.org/dom7/download/dom7-3.0.0-alpha.7.tgz?cache=0&sync_timestamp=1594741986983&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fdom7%2Fdownload%2Fdom7-3.0.0-alpha.7.tgz#3b4ba156a83fa37fb3fa34b8ab40a1a41a56feb1"
+  integrity sha1-O0uhVqg/o3+z+jS4q0ChpBpW/rE=
+  dependencies:
+    ssr-window "^3.0.0-alpha.1"
+
 domain-browser@^1.1.1:
   version "1.2.0"
   resolved "https://registry.npm.taobao.org/domain-browser/download/domain-browser-1.2.0.tgz?cache=0&sync_timestamp=1596513407158&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fdomain-browser%2Fdownload%2Fdomain-browser-1.2.0.tgz#3d31f50191a6749dd1375a7f522e823d42e54eda"
@@ -10851,7 +10858,7 @@ prompts@^2.0.1:
     kleur "^3.0.3"
     sisteransi "^1.0.4"
 
-prop-types@^15.6.0, prop-types@^15.6.1, prop-types@^15.6.2, prop-types@^15.7.2:
+prop-types@^15.5.8, prop-types@^15.6.0, prop-types@^15.6.1, prop-types@^15.6.2, prop-types@^15.7.2:
   version "15.7.2"
   resolved "https://registry.npm.taobao.org/prop-types/download/prop-types-15.7.2.tgz?cache=0&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fprop-types%2Fdownload%2Fprop-types-15.7.2.tgz#52c41e75b8c87e72b9d9360e0206b99dcbffa6c5"
   integrity sha1-UsQedbjIfnK52TYOAga5ncv/psU=
@@ -11360,6 +11367,14 @@ react-sizeme@^2.6.7:
     invariant "^2.2.4"
     shallowequal "^1.1.0"
     throttle-debounce "^2.1.0"
+
+react-spring@^8.0.27:
+  version "8.0.27"
+  resolved "https://registry.npm.taobao.org/react-spring/download/react-spring-8.0.27.tgz#97d4dee677f41e0b2adcb696f3839680a3aa356a"
+  integrity sha1-l9Te5nf0Hgsq3LaW84OWgKOqNWo=
+  dependencies:
+    "@babel/runtime" "^7.3.1"
+    prop-types "^15.5.8"
 
 react-syntax-highlighter@^11.0.2:
   version "11.0.2"
@@ -12430,6 +12445,11 @@ sshpk@^1.7.0:
     safer-buffer "^2.0.2"
     tweetnacl "~0.14.0"
 
+ssr-window@^3.0.0-alpha.1, ssr-window@^3.0.0-alpha.4:
+  version "3.0.0-alpha.4"
+  resolved "https://registry.npm.taobao.org/ssr-window/download/ssr-window-3.0.0-alpha.4.tgz#0c69a18c4305ecccdd8e11596155ca07b635f345"
+  integrity sha1-DGmhjEMF7MzdjhFZYVXKB7Y180U=
+
 ssri@^6.0.1:
   version "6.0.1"
   resolved "https://registry.npm.taobao.org/ssri/download/ssri-6.0.1.tgz#2a3c41b28dd45b62b63676ecb74001265ae9edd8"
@@ -12791,6 +12811,14 @@ svgo@^1.0.0, svgo@^1.2.2:
     stable "^0.1.8"
     unquote "~1.1.1"
     util.promisify "~1.0.0"
+
+swiper@^6.1.1:
+  version "6.1.1"
+  resolved "https://registry.npm.taobao.org/swiper/download/swiper-6.1.1.tgz?cache=0&sync_timestamp=1596216601266&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fswiper%2Fdownload%2Fswiper-6.1.1.tgz#1246f28557dd33968dc43e926bc6e9e9a7b3850d"
+  integrity sha1-EkbyhVfdM5aNxD6Sa8bp6aezhQ0=
+  dependencies:
+    dom7 "^3.0.0-alpha.7"
+    ssr-window "^3.0.0-alpha.4"
 
 symbol-tree@^3.2.2:
   version "3.2.4"

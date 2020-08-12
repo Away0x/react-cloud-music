@@ -59,55 +59,53 @@ export class HTTPClient<Req extends RequestConfig = RequestConfig, Resp = any> {
   }
 
   private async request(config: Req): Promise<Resp> {
-    let _config = config;
-
-    if (!_config.baseURL && this.baseURL) {
-      _config.baseURL = this.baseURL;
+    if (!config.baseURL && this.baseURL) {
+      config.baseURL = this.baseURL;
     }
 
     if (this.requestResolve) {
-      _config = this.requestResolve(_config);
+      config = this.requestResolve(config);
+    }
+
+    if (config.mockCallback) {
+      return config.mockCallback(config);
     }
 
     try {
-      if (_config.method === 'POST') {
-        if (!_config.data) _config.data = {};
+      if (config.method === 'POST') {
+        if (!config.data) config.data = {};
 
-        if (_config.formData) {
+        if (config.formData) {
           const form = new FormData();
 
-          for (const key in _config.data) {
-            if (_config.data.hasOwnProperty(key)) {
-              const val = _config.data[key];
+          for (const key in config.data) {
+            if (config.data.hasOwnProperty(key)) {
+              const val = config.data[key];
               form.append(key, val);
             }
           }
 
-          _config.data = form;
-          _config.headers = Object.assign({}, _config.headers, FORMDATA_CONTENT_TYPE);
+          config.data = form;
+          config.headers = Object.assign({}, config.headers, FORMDATA_CONTENT_TYPE);
         } else {
-          if (!_config.json) {
-            _config.data = qs.stringify(_config.data);
+          if (!config.json) {
+            config.data = qs.stringify(config.data);
           } else {
-            _config.headers = Object.assign({}, _config.headers, JSON_CONTENT_TYPE);
+            config.headers = Object.assign({}, config.headers, JSON_CONTENT_TYPE);
           }
         }
       }
 
-      if (_config.mockCallback) {
-        return _config.mockCallback(_config);
-      }
-
-      const result = await this.axiosInstance(_config);
+      const result = await this.axiosInstance(config);
 
       if ((result as any).resolved) {
         return (result as any).result;
       }
 
-      return this.responseResolve(_config, result);
+      return this.responseResolve(config, result);
     } catch (err) {
       console.warn(`[HTTPClient] `, err);
-      return this.errorResolve(_config, err);
+      return this.errorResolve(config, err);
     }
   }
 

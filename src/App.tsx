@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { HashRouter as Router } from 'react-router-dom';
 
-import Globalstyle from 'styles/global';
+import StyledGlobal from 'styles/global';
+import StyledIconFont from 'assets/iconfont';
 import { GlobalErrorBoundary } from 'components/ErrorBoundary';
 import ThemeContainer, { ThemeState } from 'containers/theme';
 import AuthContainer, { AuthState } from 'containers/auth';
@@ -10,6 +11,7 @@ import RootRoutes from 'pages';
 
 type InitState = AuthState & ThemeState;
 
+/** 尝试从 window 上获取基础数据 */
 function getWindowBaseData(): InitState | null {
   const baseDataString = (window as any).__BASE_DATA__ || '';
   if (!baseDataString) return null;
@@ -54,14 +56,17 @@ function App() {
 
   return (
     <GlobalErrorBoundary>
-      <Globalstyle />
-      <Router>
-        <ThemeContainer value={themeState}>
-          <AuthContainer.Provider initialState={authState}>
+      <ThemeContainer value={themeState}>
+        <AuthContainer.Provider initialState={authState}>
+          {/* 全局样式 */}
+          <StyledGlobal />
+          <StyledIconFont />
+          {/* 路由 */}
+          <Router>
             <RootRoutes />
-          </AuthContainer.Provider>
-        </ThemeContainer>
-      </Router>
+          </Router>
+        </AuthContainer.Provider>
+      </ThemeContainer>
     </GlobalErrorBoundary>
   );
 }
