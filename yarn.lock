@@ -2258,6 +2258,13 @@
   dependencies:
     "@types/react" "*"
 
+"@types/react-lazyload@^2.6.0":
+  version "2.6.0"
+  resolved "https://registry.npm.taobao.org/@types/react-lazyload/download/@types/react-lazyload-2.6.0.tgz#41cd9cbb2c03dd810377518d4837794469a521d1"
+  integrity sha1-Qc2cuywD3YEDd1GNSDd5RGmlIdE=
+  dependencies:
+    "@types/react" "*"
+
 "@types/react-native@*":
   version "0.63.6"
   resolved "https://registry.npm.taobao.org/@types/react-native/download/@types/react-native-0.63.6.tgz#ba3f9c9ed6f066cb964424cacc844ea58eac5148"
@@ -11242,6 +11249,11 @@ react-is@^16.12.0, react-is@^16.6.0, react-is@^16.7.0, react-is@^16.8.1, react-i
   version "16.13.1"
   resolved "https://registry.npm.taobao.org/react-is/download/react-is-16.13.1.tgz?cache=0&sync_timestamp=1597092170836&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Freact-is%2Fdownload%2Freact-is-16.13.1.tgz#789729a4dc36de2999dc156dd6c1d9c18cea56a4"
   integrity sha1-eJcppNw23imZ3BVt1sHZwYzqVqQ=
+
+react-lazyload@^3.0.0:
+  version "3.0.0"
+  resolved "https://registry.npm.taobao.org/react-lazyload/download/react-lazyload-3.0.0.tgz#f9741daa823d95ddb4dd59527ca6b8845d1b4c3e"
+  integrity sha1-+XQdqoI9ld203VlSfKa4hF0bTD4=
 
 react-lifecycles-compat@^3.0.4:
   version "3.0.4"

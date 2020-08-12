@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { HashRouter as Router } from 'react-router-dom';
 
+import ThemeContainer, { ThemeState } from 'containers/theme';
+import AuthContainer, { AuthState } from 'containers/auth';
 import StyledGlobal from 'styles/global';
 import StyledIconFont from 'assets/iconfont';
 import { GlobalErrorBoundary } from 'components/ErrorBoundary';
-import ThemeContainer, { ThemeState } from 'containers/theme';
-import AuthContainer, { AuthState } from 'containers/auth';
 import { TokenStorage } from 'services/storage/token';
 import RootRoutes from 'pages';
 

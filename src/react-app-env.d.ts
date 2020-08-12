@@ -11,6 +11,7 @@ declare module 'styled-components' {
     themeColor: string;
     themeColorShadow: string;
 
+    fontColor: string;
     fontColorLight: string;
     fontColorLightShadow: string;
     fontColorDesc: string;

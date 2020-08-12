@@ -12,6 +12,7 @@ const THEME: DefaultTheme = {
   statusBarHeight: 0,
   themeColor: '#d44439',
   themeColorShadow: 'rgba(212, 68, 57, .5)',
+  fontColor: '#2E3030',
   fontColorLight: '#f1f1f1',
   fontColorLightShadow: 'rgba(241, 241, 241, 0.6)',
   fontColorDesc: '#2E3030',
@@ -29,11 +30,11 @@ const THEME: DefaultTheme = {
   officialRed: '#E82001',
 };
 
-function ThemeContainer({ children, value = {} }: ThemeContainerProps) {
-  const [themeState, updateThemeState] = useState<DefaultTheme>(() => Object.assign({}, THEME, value));
+function ThemeContainer({ children, value }: ThemeContainerProps) {
+  const [themeState, updateThemeState] = useState<DefaultTheme>(THEME);
 
   useEffect(() => {
-    updateThemeState((state) => Object.assign({}, state, value));
+    if (value) updateThemeState(Object.assign({}, THEME, value));
   }, [value]);
 
   return <StyledThemeProvider theme={themeState}>{children}</StyledThemeProvider>;

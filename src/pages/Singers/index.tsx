@@ -2,9 +2,7 @@ import React from 'react';
 
 import StyledSingers from './style';
 
-interface SingersProps {}
-
-function Singers({}: SingersProps) {
+function Singers() {
   return <StyledSingers>Singers</StyledSingers>;
 }
 

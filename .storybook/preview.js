@@ -2,8 +2,16 @@ import React from 'react';
 import { addDecorator, addParameters } from '@storybook/react';
 
 import ThemeContainer from '../src/containers/theme';
+import StyledGlobal from '../src/styles/global';
+import StyledIconFont from '../src/assets/iconfont';
 
-addDecorator((storyFn) => <ThemeContainer>{storyFn()}</ThemeContainer>);
+addDecorator((storyFn) => (
+  <ThemeContainer>
+    <StyledGlobal />
+    <StyledIconFont />
+    {storyFn()}
+  </ThemeContainer>
+));
 
 addParameters({
   options: {

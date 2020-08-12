@@ -11,6 +11,7 @@ ReactDOM.render(
   document.getElementById('root'),
 );
 
+// 存储项目信息
 (window as any).__project__ = (() => {
   return {
     version: process.env.version,

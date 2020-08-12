@@ -2,9 +2,7 @@ import React from 'react';
 
 import StyledRank from './style';
 
-interface RankProps {}
-
-function Rank({}: RankProps) {
+function Rank() {
   return <StyledRank>Rank</StyledRank>;
 }
 

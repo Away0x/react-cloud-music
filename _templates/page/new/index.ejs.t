@@ -6,17 +6,10 @@ import React from 'react';
 
 import Styled<%= name %> from './style';
 
-interface <%= name %>Props {
-  children?: React.ReactNode;
-}
-
-function <%= name %>({
-  children,
-  ...rest
-}: <%= name %>Props) {
+function <%= name %>() {
   return (
-    <Styled<%= name %> {...rest}>
-      {children}
+    <Styled<%= name %>>
+      <%= name %> page
     </Styled<%= name %>>
   );
 }
