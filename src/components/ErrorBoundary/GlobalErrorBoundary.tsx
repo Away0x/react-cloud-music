@@ -12,11 +12,11 @@ function ErrorFallback({ error, componentStack, resetErrorBoundary }: any) {
   );
 }
 
-interface ErrorBoundaryProps {
+interface GlobalErrorBoundaryProps {
   children?: React.ReactNode;
 }
 
-function ErrorBoundary({ children }: ErrorBoundaryProps) {
+function GlobalErrorBoundary({ children }: GlobalErrorBoundaryProps) {
   return (
     <ReactErrorBoundary
       FallbackComponent={ErrorFallback}
@@ -28,4 +28,4 @@ function ErrorBoundary({ children }: ErrorBoundaryProps) {
   );
 }
 
-export default React.memo(ErrorBoundary);
+export default React.memo(GlobalErrorBoundary);
