@@ -56,6 +56,37 @@ export const Default = () => {
   );
 };
 
+export const Horizental = () => {
+  return (
+    <div
+      style={{
+        width: '200px',
+        height: '50px',
+        whiteSpace: 'nowrap',
+      }}>
+      <Scroll direction="horizontal">
+        <div style={{ display: 'inline-block' }}>
+          {rangeArr(0, 20).map((i) => (
+            <div
+              key={i}
+              style={{
+                display: 'inline-block',
+                height: '50px',
+                width: '50px',
+                textAlign: 'center',
+                lineHeight: '50px',
+                marginRight: '10px',
+                background: 'rgb(228 222 222)',
+              }}>
+              {i}
+            </div>
+          ))}
+        </div>
+      </Scroll>
+    </div>
+  );
+};
+
 export const PullUpPullDown = () => {
   const [count, setCount] = useState(5);
   const [pullUpLoading, setPullUpLoading] = useState(false);

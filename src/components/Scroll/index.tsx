@@ -12,7 +12,7 @@ BScroll.use(PullUp);
 BScroll.use(PullDown);
 
 interface ScrollProps {
-  direction?: 'vertical' | 'horizental'; // 滚动的方向
+  direction?: 'vertical' | 'horizontal'; // 滚动的方向
   click?: boolean; // 是否支持点击
   refresh?: boolean; // 是否刷新
   pullUpLoading?: boolean; // 是否显示上拉 loading 动画
@@ -47,7 +47,7 @@ const Scroll = forwardRef<ScrollerHandlers, ScrollProps>(
     },
     ref,
   ) => {
-    const scrollContaninerRef = useRef<HTMLDivElement | null>(null);
+    const scrollContaninerRef = useRef<HTMLDivElement>(null);
     const [bScroll, setBScroll] = useState<BScroll | null>(null);
 
     const { run: pullUpDebounce } = useDebounceFn(
@@ -89,7 +89,7 @@ const Scroll = forwardRef<ScrollerHandlers, ScrollProps>(
     useEffect(() => {
       setBScroll(
         new BScroll(scrollContaninerRef.current!, {
-          scrollX: direction === 'horizental',
+          scrollX: direction === 'horizontal',
           scrollY: direction === 'vertical',
           probeType: 3,
           click: click,
