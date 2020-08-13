@@ -13,6 +13,7 @@
     "new:component": "hygen component new",
     "new:page": "hygen page new",
     "new:layout": "hygen layout new",
+    "new:container": "hygen container new",
     "commit": "git-cz"
   },
   "dependencies": {

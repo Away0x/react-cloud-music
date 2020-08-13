@@ -33,21 +33,35 @@ function useRecommend(): UseRecommend {
   }, [recommendState.bannerList]);
 
   const getBannerList = useCallback(async () => {
-    const result = await getBannerService();
+    try {
+      const result = await getBannerService();
 
-    updateRecommendState((state) => {
-      state.loading = false;
-      state.bannerList = result;
-    });
+      updateRecommendState((state) => {
+        state.loading = false;
+        state.bannerList = result;
+      });
+    } catch (err) {
+      console.warn('[useRecommend#getBannerList] error: ', err);
+      updateRecommendState((state) => {
+        state.loading = false;
+      });
+    }
   }, [updateRecommendState]);
 
   const getRecommendList = useCallback(async () => {
-    const result = await getRecommendListService();
+    try {
+      const result = await getRecommendListService();
 
-    updateRecommendState((state) => {
-      state.loading = false;
-      state.recommendList = result;
-    });
+      updateRecommendState((state) => {
+        state.loading = false;
+        state.recommendList = result;
+      });
+    } catch (err) {
+      console.warn('[useRecommend#getRecommendList] error: ', err);
+      updateRecommendState((state) => {
+        state.loading = false;
+      });
+    }
   }, [updateRecommendState]);
 
   return { ...recommendState, bannerImages, getBannerList, getRecommendList };

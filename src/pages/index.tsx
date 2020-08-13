@@ -1,7 +1,10 @@
 import React, { lazy, Suspense } from 'react';
 import { Route, Switch, Redirect } from 'react-router-dom';
 
-import RecommendContainer from 'containers/recommend';
+import RecommendContainer from 'containers/RecommendContainer';
+import SingersContainer from 'containers/SingersContainer';
+import RankContainer from 'containers/RankContainer';
+import PlayerContainer from 'containers/PlayerContainer';
 import { SpecialRoutePath, RecommondRoutePath, SingersRoutePath, RankRoutePath } from 'constants/router';
 import HomeLayout from 'layouts/Home';
 import NotFound from 'pages/Errors/NotFound';
@@ -13,36 +16,42 @@ const Rank = lazy(() => import(/* webpackChunkName: 'rank-page' */ 'pages/Rank')
 function RootRoutes() {
   return (
     <RecommendContainer.Provider>
-      <HomeLayout>
-        <Switch>
-          {/* 首页 */}
-          <Route exact path={SpecialRoutePath.Root}>
-            <Redirect to={RecommondRoutePath.Root} />
-          </Route>
-          {/* 推荐页 */}
-          <Route path={RecommondRoutePath.Root}>
-            <Suspense fallback={null}>
-              <Recommend />
-            </Suspense>
-          </Route>
-          {/* 歌手页 */}
-          <Route path={SingersRoutePath.Root}>
-            <Suspense fallback={null}>
-              <Singers />
-            </Suspense>
-          </Route>
-          {/* 排行榜页 */}
-          <Route path={RankRoutePath.Root}>
-            <Suspense fallback={null}>
-              <Rank />
-            </Suspense>
-          </Route>
-          {/* not found */}
-          <Route path={SpecialRoutePath.Any}>
-            <NotFound />
-          </Route>
-        </Switch>
-      </HomeLayout>
+      <SingersContainer.Provider>
+        <RankContainer.Provider>
+          <PlayerContainer.Provider>
+            <HomeLayout>
+              <Switch>
+                {/* 首页 */}
+                <Route exact path={SpecialRoutePath.Root}>
+                  <Redirect to={RecommondRoutePath.Root} />
+                </Route>
+                {/* 推荐页 */}
+                <Route path={RecommondRoutePath.Root}>
+                  <Suspense fallback={null}>
+                    <Recommend />
+                  </Suspense>
+                </Route>
+                {/* 歌手页 */}
+                <Route path={SingersRoutePath.Root}>
+                  <Suspense fallback={null}>
+                    <Singers />
+                  </Suspense>
+                </Route>
+                {/* 排行榜页 */}
+                <Route path={RankRoutePath.Root}>
+                  <Suspense fallback={null}>
+                    <Rank />
+                  </Suspense>
+                </Route>
+                {/* not found */}
+                <Route path={SpecialRoutePath.Any}>
+                  <NotFound />
+                </Route>
+              </Switch>
+            </HomeLayout>
+          </PlayerContainer.Provider>
+        </RankContainer.Provider>
+      </SingersContainer.Provider>
     </RecommendContainer.Provider>
   );
 }

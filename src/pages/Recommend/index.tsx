@@ -4,7 +4,7 @@ import { useHistory } from 'react-router-dom';
 import { forceCheck } from 'react-lazyload';
 
 import { RecommondRoutePath } from 'constants/router';
-import RecommendContainer from 'containers/recommend';
+import RecommendContainer from 'containers/RecommendContainer';
 import Slider from 'components/Slider';
 import Scroll from 'components/Scroll';
 import { Loading } from 'components/Loading';

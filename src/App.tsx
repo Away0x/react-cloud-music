@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { HashRouter as Router } from 'react-router-dom';
 
-import ThemeContainer, { ThemeState } from 'containers/theme';
-import AuthContainer, { AuthState } from 'containers/auth';
+import ThemeContainer, { ThemeState } from 'containers/ThemeContainer';
+import AuthContainer, { AuthState } from 'containers/AuthContainer';
 import StyledGlobal from 'styles/global';
 import StyledIconFont from 'assets/iconfont';
 import { GlobalErrorBoundary } from 'components/ErrorBoundary';

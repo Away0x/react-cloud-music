@@ -17,8 +17,8 @@ yarn report
 # 开发 storybook
 yarn storybook
 
-# 创建一个通用组件/页面/布局
-yarn new:component/page/layout
+# 创建一个通用组件/页面/布局/容器
+yarn new:component/page/layout/container
 
 # git commit
 yarn commit

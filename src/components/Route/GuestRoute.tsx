@@ -1,7 +1,7 @@
 import React from 'react';
 import { Route, Redirect, RouteProps } from 'react-router-dom';
 
-import AuthContainer from 'containers/auth';
+import AuthContainer from 'containers/AuthContainer';
 
 interface GuestRouteProps extends RouteProps {
   homeRoutePath: string; // 首页地址

@@ -7,7 +7,7 @@
 import React from 'react';
 import { Route, Redirect, RouteProps } from 'react-router-dom';
 
-import AuthContainer from 'containers/auth';
+import AuthContainer from 'containers/AuthContainer';
 
 interface AuthRouteProps extends RouteProps {
   noAuthRoutePath: string; // 无权限时跳转的地址
