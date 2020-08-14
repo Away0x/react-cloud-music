@@ -11,11 +11,10 @@ interface <%= name %>LayoutProps {
 }
 
 function <%= name %>Layout({
-  children,
-  ...rest
+  children
 }: <%= name %>LayoutProps) {
   return (
-    <Styled<%= name %> {...rest}>
+    <Styled<%= name %>>
       {children}
     </Styled<%= name %>>
   );
