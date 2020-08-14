@@ -1,8 +1,23 @@
 import React from 'react';
 
-import { StyledLoading } from './style';
+import { StyledFullLoadingContainer, StyledLoading } from './style';
 
-function Loading() {
+interface LoadingProps {
+  full?: boolean;
+}
+
+function Loading({ full = false }: LoadingProps) {
+  if (full) {
+    return (
+      <StyledFullLoadingContainer>
+        <StyledLoading>
+          <div></div>
+          <div></div>
+        </StyledLoading>
+      </StyledFullLoadingContainer>
+    );
+  }
+
   return (
     <StyledLoading>
       <div></div>

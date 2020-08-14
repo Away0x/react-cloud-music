@@ -20,17 +20,6 @@ const ListContainer = styled.div`
   width: 100%;
 `;
 
-const EnterLoading = styled.div`
-  position: fixed;
-  left: 0;
-  right: 0;
-  top: 0;
-  bottom: 0;
-  width: 100px;
-  height: 100px;
-  margin: auto;
-`;
-
 export default StyledSingers;
 
-export { NavContainer, ListContainer, EnterLoading };
+export { NavContainer, ListContainer };

@@ -68,9 +68,6 @@ const Scroll = forwardRef<ScrollerHandlers, ScrollProps>(
       },
     );
 
-    const pullUpdisplayStyle = pullUpLoading ? { display: '' } : { display: 'none' };
-    const pullDowndisplayStyle = pullDownLoading ? { display: '' } : { display: 'none' };
-
     // 暴露给外部的方法
     useImperativeHandle(ref, () => {
       return {
@@ -156,11 +153,11 @@ const Scroll = forwardRef<ScrollerHandlers, ScrollProps>(
       <StyledScroll ref={scrollContaninerRef}>
         {children}
         {/* 滑到底部加载动画 */}
-        <PullUploading style={pullUpdisplayStyle}>
+        <PullUploading show={pullUpLoading}>
           <Loading />
         </PullUploading>
         {/* 顶部下拉刷新动画 */}
-        <PullDownLoading style={pullDowndisplayStyle}>
+        <PullDownLoading show={pullDownLoading}>
           <LoadingV2 />
         </PullDownLoading>
       </StyledScroll>

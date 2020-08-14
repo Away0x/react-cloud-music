@@ -6,7 +6,11 @@ const StyledScroll = styled.div`
   overflow: hidden;
 `;
 
-const PullUploading = styled.div`
+interface PullProps {
+  show?: boolean;
+}
+
+const PullUploading = styled.div<PullProps>`
   position: absolute;
   left: 0;
   right: 0;
@@ -15,9 +19,10 @@ const PullUploading = styled.div`
   height: 60px;
   margin: auto;
   z-index: 100;
+  display: ${({ show = false }) => (show ? 'block' : 'none')};
 `;
 
-const PullDownLoading = styled.div`
+const PullDownLoading = styled.div<PullProps>`
   position: absolute;
   left: 0;
   right: 0;
@@ -25,6 +30,7 @@ const PullDownLoading = styled.div`
   height: 30px;
   margin: auto;
   z-index: 100;
+  display: ${({ show = false }) => (show ? 'block' : 'none')};
 `;
 
 export default StyledScroll;

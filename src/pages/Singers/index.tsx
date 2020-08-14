@@ -10,7 +10,7 @@ import SingerList from 'components/SingerList';
 import Scroll, { ScrollerHandlers } from 'components/Scroll';
 import { Loading } from 'components/Loading';
 
-import StyledSingers, { NavContainer, ListContainer, EnterLoading } from './style';
+import StyledSingers, { NavContainer, ListContainer } from './style';
 
 function Singers() {
   const history = useHistory();
@@ -86,11 +86,7 @@ function Singers() {
         </Scroll>
       </ListContainer>
 
-      {enterLoading && (
-        <EnterLoading>
-          <Loading />
-        </EnterLoading>
-      )}
+      {enterLoading && <Loading full />}
     </StyledSingers>
   );
 }

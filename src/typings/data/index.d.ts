@@ -48,7 +48,7 @@ declare namespace Data {
   export interface RankListItem {
     id: number;
     name: string;
-    coverImgId: string;
+    coverImgId: string | number;
     coverImgUrl: string;
     updateFrequency: string;
     tracks: RankSongItem[];

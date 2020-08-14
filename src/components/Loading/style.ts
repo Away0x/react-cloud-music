@@ -19,6 +19,17 @@ const dance = keyframes`
   }
 `;
 
+const StyledFullLoadingContainer = styled.div`
+  position: fixed;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  width: 100px;
+  height: 100px;
+  margin: auto;
+`;
+
 const StyledLoading = styled.div`
   & > div {
     position: fixed;
@@ -69,4 +80,4 @@ const StyledLoadingV2 = styled.div`
   }
 `;
 
-export { StyledLoading, StyledLoadingV2 };
+export { StyledFullLoadingContainer, StyledLoading, StyledLoadingV2 };
