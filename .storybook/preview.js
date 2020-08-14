@@ -3,7 +3,7 @@ import { addDecorator, addParameters } from '@storybook/react';
 
 import './preview.css';
 
-import ThemeContainer from '../src/containers/theme';
+import ThemeContainer from '../src/containers/ThemeContainer';
 import StyledGlobal from '../src/styles/global';
 import StyledIconFont from '../src/assets/iconfont';
 

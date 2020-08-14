@@ -44,7 +44,7 @@ function Recommend() {
         </div>
       </Scroll>
 
-      {loading ? <Loading /> : null}
+      {loading && <Loading />}
     </StyledRecommend>
   );
 }

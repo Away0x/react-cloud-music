@@ -1,18 +1,24 @@
-import { useCallback } from 'react';
+import { useCallback, useRef } from 'react';
 import { createContainer } from 'unstated-next';
 import { useImmer } from 'use-immer';
 
+import { categoryTypes, alphaTypes } from 'constants/category';
 import { getHotSingerListService, getSingerListService } from 'services';
 
-export interface SingersState {
-  category: string; // 类别
-  alpha: string; // 字母
+export interface SingersImmerState {
   singerList: Data.SingerListItem[]; // 歌手列表
   enterLoading: boolean; // 控制进场 Loading
   pullUpLoading: boolean; // 控制上拉加载动画
   pullDownLoading: boolean; // 控制下拉加载动画
   listOffset: number; // 列表偏移量
 }
+
+export interface SingersParamsState {
+  category: string; // 类别
+  alpha: string; // 字母
+}
+
+export type SingersState = SingersImmerState & SingersParamsState;
 
 interface SingersComputedState {}
 
@@ -32,9 +38,12 @@ interface SingersActions {
 type UseSingers = SingersState & SingersComputedState & SingersActions;
 
 function useSingers(): UseSingers {
-  const [singersState, updateSingersState] = useImmer<SingersState>({
+  // 请求参数通过 ref 保存，便于修改完参数后同步发送请求时，能在请求函数中获取到修改后的参数值
+  const paramsRef = useRef<SingersParamsState>({
     category: '',
     alpha: '',
+  });
+  const [singersState, updateSingersState] = useImmer<SingersImmerState>({
     singerList: [],
     enterLoading: true,
     pullUpLoading: false,
@@ -42,22 +51,51 @@ function useSingers(): UseSingers {
     listOffset: 0,
   });
 
+  const refresh = useCallback(async () => {
+    updateSingersState((state) => {
+      state.listOffset = 0;
+      state.pullDownLoading = true;
+    });
+
+    const category = paramsRef.current.category;
+    const alpha = paramsRef.current.alpha;
+    let list: Data.SingerListItem[] = [];
+
+    try {
+      if (category === '' && alpha === '') {
+        list = await getHotSingerListService(0);
+      } else {
+        list = await getSingerListService(category, alpha, 0);
+      }
+    } catch (err) {
+      console.warn('[useSingers#refresh] error: ', err);
+      updateSingersState((state) => {
+        state.pullDownLoading = false;
+      });
+      return;
+    }
+
+    updateSingersState((state) => {
+      state.singerList = list;
+      state.pullDownLoading = false;
+      state.listOffset = list.length;
+    });
+  }, [updateSingersState]);
+
   const updateCategory = useCallback(
     (category: string) => {
-      updateSingersState((state) => {
-        state.category = category;
-      });
+      paramsRef.current.category = category;
+      refresh();
     },
-    [updateSingersState],
+    [refresh],
   );
 
   const updateAlpha = useCallback(
     (alpha: string) => {
-      updateSingersState((state) => {
-        state.alpha = alpha;
-      });
+      paramsRef.current.alpha = alpha;
+      refresh();
     },
-    [updateSingersState],
+    [refresh],
   );
 
   const getHotSingers = useCallback(async () => {
@@ -85,7 +123,9 @@ function useSingers(): UseSingers {
         state.pullUpLoading = true;
       });
 
-      const { category, alpha, listOffset } = singersState;
+      const category = paramsRef.current.category;
+      const alpha = paramsRef.current.alpha;
+      const listOffset = singersState.listOffset;
       let list: Data.SingerListItem[] = [];
 
       try {
@@ -109,42 +149,23 @@ function useSingers(): UseSingers {
         state.listOffset = newList.length;
       });
     },
-    [singersState, updateSingersState],
+    [singersState.listOffset, updateSingersState],
   );
 
-  const refresh = useCallback(async () => {
-    updateSingersState((state) => {
-      state.listOffset = 0;
-      state.pullDownLoading = true;
-    });
-
-    const { category, alpha } = singersState;
-    let list: Data.SingerListItem[] = [];
-
-    try {
-      if (category === '' && alpha === '') {
-        list = await getHotSingerListService(0);
-      } else {
-        list = await getSingerListService(category, alpha, 0);
-      }
-    } catch (err) {
-      console.warn('[useSingers#refresh] error: ', err);
-      updateSingersState((state) => {
-        state.pullDownLoading = false;
-      });
-      return;
-    }
-
-    updateSingersState((state) => {
-      state.singerList = list;
-      state.pullDownLoading = false;
-      state.listOffset = list.length;
-    });
-  }, [singersState, updateSingersState]);
-
-  return { ...singersState, updateCategory, updateAlpha, getHotSingers, loadMore, refresh };
+  return {
+    ...singersState,
+    category: paramsRef.current.category,
+    alpha: paramsRef.current.alpha,
+    updateCategory,
+    updateAlpha,
+    getHotSingers,
+    loadMore,
+    refresh,
+  };
 }
 
 const SingersContainer = createContainer(useSingers);
 
 export default SingersContainer;
+
+export { categoryTypes, alphaTypes };

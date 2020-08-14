@@ -11,6 +11,26 @@ const NavContainer = styled.div`
   overflow: hidden;
 `;
 
+const ListContainer = styled.div`
+  position: fixed;
+  top: 160px;
+  left: 0;
+  bottom: 0;
+  overflow: hidden;
+  width: 100%;
+`;
+
+const EnterLoading = styled.div`
+  position: fixed;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  width: 100px;
+  height: 100px;
+  margin: auto;
+`;
+
 export default StyledSingers;
 
-export { NavContainer };
+export { NavContainer, ListContainer, EnterLoading };
