@@ -16,6 +16,7 @@ const Recommend = lazy(() => import(/* webpackChunkName: 'recommend-page' */ 'pa
 const Singers = lazy(() => import(/* webpackChunkName: 'singers-page' */ 'pages/Singers'));
 const Rank = lazy(() => import(/* webpackChunkName: 'rank-page' */ 'pages/Rank'));
 const Album = lazy(() => import(/* webpackChunkName: 'album-page' */ 'pages/Album'));
+const Singer = lazy(() => import(/* webpackChunkName: 'singer-page' */ 'pages/Singer'));
 
 function ProviderContainer({ children }: { children: React.ReactNode }) {
   return (
@@ -60,7 +61,16 @@ function RootRoutes() {
           {/* 歌手页 */}
           <Route path={SingersRoutePath.Root}>
             <Suspense fallback={<Loading full />}>
-              <Singers />
+              <Singers>
+                <Switch>
+                  {/* 歌手页详情 */}
+                  <Route exact path={SingersRoutePath.Detail}>
+                    <Suspense fallback={<Loading full />}>
+                      <Singer />
+                    </Suspense>
+                  </Route>
+                </Switch>
+              </Singers>
             </Suspense>
           </Route>
 

@@ -12,7 +12,11 @@ import { Loading } from 'components/Loading';
 
 import StyledSingers, { NavContainer, ListContainer } from './style';
 
-function Singers() {
+interface SingersProps {
+  children?: React.ReactNode;
+}
+
+function Singers({ children }: SingersProps) {
   const history = useHistory();
   const {
     category,
@@ -87,6 +91,7 @@ function Singers() {
       </ListContainer>
 
       {enterLoading && <Loading full />}
+      {children}
     </StyledSingers>
   );
 }
