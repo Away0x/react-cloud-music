@@ -58,7 +58,18 @@ function RootRoutes() {
                 {/* 排行榜页 */}
                 <Route path={RankRoutePath.Root}>
                   <Suspense fallback={<Loading full />}>
-                    <Rank />
+                    <Rank>
+                      <Switch>
+                        {/* 排行榜页详情 */}
+                        <Route exact path={RankRoutePath.Detail}>
+                          <Suspense fallback={<Loading full />}>
+                            <AlbumContainer.Provider>
+                              <Album />
+                            </AlbumContainer.Provider>
+                          </Suspense>
+                        </Route>
+                      </Switch>
+                    </Rank>
                   </Suspense>
                 </Route>
 

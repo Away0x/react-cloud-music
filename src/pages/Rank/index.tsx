@@ -19,7 +19,11 @@ function getGlobalStartIndex(list: Data.RankListItem[]) {
   }
 }
 
-function Rank() {
+interface RankProps {
+  children?: React.ReactNode;
+}
+
+function Rank({ children }: RankProps) {
   const history = useHistory();
   const { loading, rankList, getRankList } = RankContainer.useContainer();
 
@@ -54,6 +58,7 @@ function Rank() {
           {loading && <Loading full />}
         </div>
       </Scroll>
+      {children}
     </StyledRank>
   );
 }
