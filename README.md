@@ -45,6 +45,8 @@ yarn commit
 │
 ├── pages            页面
 │
+├── routes           路由
+│
 ├── services         数据层 (网络数据/本地存储数据/mock 数据)
 │
 ├── styles           样式

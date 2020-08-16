@@ -6,6 +6,8 @@ declare module 'styled-components' {
   export interface DefaultTheme {
     /** 状态栏高度 */
     statusBarHeight: number;
+    /** 导航高度 */
+    navBarHeight: number;
 
     /** color */
     themeColor: string;

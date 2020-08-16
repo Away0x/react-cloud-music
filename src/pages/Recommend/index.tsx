@@ -12,7 +12,13 @@ import { Loading } from 'components/Loading';
 import StyledRecommend from './style';
 import RecommentList from 'components/RecommentList';
 
-function Recommend() {
+interface RecommendProps {
+  children?: React.ReactNode;
+}
+
+function Recommend({
+  children
+}: RecommendProps) {
   const {
     loading,
     bannerImages,
@@ -45,6 +51,7 @@ function Recommend() {
       </Scroll>
 
       {loading && <Loading />}
+      {children}
     </StyledRecommend>
   );
 }

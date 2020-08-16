@@ -1,15 +1,13 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback } from 'react';
+import { createContainer } from 'unstated-next';
+import { useImmer } from 'use-immer';
 import { DefaultTheme, ThemeProvider as StyledThemeProvider } from 'styled-components';
 
 export type ThemeState = Partial<DefaultTheme>;
 
-interface ThemeContainerProps {
-  children: React.ReactNode;
-  value?: ThemeState | null;
-}
-
-const THEME: DefaultTheme = {
+const Theme: DefaultTheme = {
   statusBarHeight: 0,
+  navBarHeight: 45,
   themeColor: '#d44439',
   themeColorShadow: 'rgba(212, 68, 57, .5)',
   fontColor: '#2E3030',
@@ -30,14 +28,55 @@ const THEME: DefaultTheme = {
   officialRed: '#E82001',
 };
 
-function ThemeContainer({ children, value }: ThemeContainerProps) {
-  const [themeState, updateThemeState] = useState<DefaultTheme>(THEME);
+interface ThemeActions {
+  changeTheme: (theme: ThemeState) => void;
+}
 
-  useEffect(() => {
-    if (value) updateThemeState(Object.assign({}, THEME, value));
-  }, [value]);
+type UseTheme = DefaultTheme & ThemeActions;
 
-  return <StyledThemeProvider theme={themeState}>{children}</StyledThemeProvider>;
+function useTheme(initialState?: ThemeState | null): UseTheme {
+  const [themeState, updateThemeState] = useImmer<DefaultTheme>({ ...initialState, ...Theme });
+
+  const changeTheme = useCallback(
+    (theme: ThemeState) => {
+      updateThemeState((state) => {
+        for (const key in theme) {
+          if (theme.hasOwnProperty(key)) {
+            (state as any)[key] = (theme as any)[key];
+          }
+        }
+      });
+    },
+    [updateThemeState],
+  );
+
+  return {
+    ...themeState,
+    changeTheme,
+  };
+}
+
+const ThemeContainer = createContainer(useTheme);
+
+interface ThemeProviderProps {
+  initialState?: ThemeState | null;
+  children: React.ReactNode;
+}
+
+function IntlStyledThemeProvider({ children }: ThemeProviderProps) {
+  const theme = ThemeContainer.useContainer();
+
+  return <StyledThemeProvider theme={theme}>{children}</StyledThemeProvider>;
+}
+
+function ThemeProvider({ initialState, children }: ThemeProviderProps) {
+  return (
+    <ThemeContainer.Provider initialState={initialState}>
+      <IntlStyledThemeProvider>{children}</IntlStyledThemeProvider>
+    </ThemeContainer.Provider>
+  );
 }
 
 export default ThemeContainer;
+
+export { ThemeProvider };

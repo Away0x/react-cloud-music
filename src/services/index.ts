@@ -82,7 +82,7 @@ export async function getRankListService(): Promise<Data.RankListItem[]> {
 }
 
 /** 获取排榜单详情列表 */
-export async function getAlbumDetailService(id: number): Promise<Data.AlbumListItem | null> {
+export async function getAlbumDetailService(id: number): Promise<Data.AlbumDetail | null> {
   const result = await client.get({
     url: '/playlist/detail',
     params: {

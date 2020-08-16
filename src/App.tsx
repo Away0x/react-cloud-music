@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { HashRouter as Router } from 'react-router-dom';
 
-import ThemeContainer, { ThemeState } from 'containers/ThemeContainer';
+import { ThemeState, ThemeProvider } from 'containers/ThemeContainer';
 import AuthContainer, { AuthState } from 'containers/AuthContainer';
 import StyledGlobal from 'styles/global';
 import StyledIconFont from 'assets/iconfont';
 import { GlobalErrorBoundary } from 'components/ErrorBoundary';
 import { TokenStorage } from 'services/storage/token';
-import RootRoutes from 'pages';
+import RootRoutes from 'routes';
 
 type InitState = AuthState & ThemeState;
 
@@ -36,7 +36,7 @@ function getDefaultInitData(): InitState {
 
 function App() {
   const [authState, setAuthState] = useState<AuthState | null>(null);
-  const [themeState, setThemeState] = useState<Partial<ThemeState> | null>(null);
+  const [themeState, setThemeState] = useState<ThemeState | null>(null);
 
   useEffect(() => {
     let initData = getWindowBaseData();
@@ -56,7 +56,7 @@ function App() {
 
   return (
     <GlobalErrorBoundary>
-      <ThemeContainer value={themeState}>
+      <ThemeProvider initialState={themeState}>
         <AuthContainer.Provider initialState={authState}>
           {/* 全局样式 */}
           <StyledGlobal />
@@ -66,7 +66,7 @@ function App() {
             <RootRoutes />
           </Router>
         </AuthContainer.Provider>
-      </ThemeContainer>
+      </ThemeProvider>
     </GlobalErrorBoundary>
   );
 }

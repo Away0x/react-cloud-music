@@ -60,8 +60,8 @@ declare namespace Data {
     nickname: string;
   }
 
-  /** album item */
-  export interface AlbumListItem {
+  /** album detail */
+  export interface AlbumDetail {
     id: number;
     name: string;
     coverImgUrl: string;

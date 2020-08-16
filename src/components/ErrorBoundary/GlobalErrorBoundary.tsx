@@ -1,31 +1,61 @@
 import React from 'react';
-import { ErrorBoundary as ReactErrorBoundary } from 'react-error-boundary';
 
-function ErrorFallback({ error, componentStack, resetErrorBoundary }: any) {
-  return (
-    <div role="alert">
-      <p>Something went wrong:</p>
-      <pre>{error.message}</pre>
-      <pre>{componentStack}</pre>
-      <button onClick={resetErrorBoundary}>Try again</button>
-    </div>
-  );
+import { IS_DEV } from 'config';
+
+import StyledGlobalErrorBoundary, { Inner, Button, Code } from './style';
+import { netErrorImg } from './icon';
+
+interface GlobalErrorBoundaryState {
+  hasError: boolean;
+  error: null | any;
+  errorInfo: null | any;
 }
 
-interface GlobalErrorBoundaryProps {
-  children?: React.ReactNode;
-}
+export default class GlobalErrorBoundary extends React.Component<{}, GlobalErrorBoundaryState> {
+  public state: GlobalErrorBoundaryState = {
+    hasError: false,
+    error: null,
+    errorInfo: null,
+  };
 
-function GlobalErrorBoundary({ children }: GlobalErrorBoundaryProps) {
-  return (
-    <ReactErrorBoundary
-      FallbackComponent={ErrorFallback}
-      onReset={() => {
-        // reset the state of your app so the error doesn't happen again
-      }}>
-      {children}
-    </ReactErrorBoundary>
-  );
-}
+  public componentDidCatch(error: any, errorInfo: any) {
+    this.setState({
+      hasError: true,
+      error,
+      errorInfo,
+    });
+  }
 
-export default React.memo(GlobalErrorBoundary);
+  public reload = () => {
+    window.location.reload();
+  };
+
+  private renderErrorStack = () => {
+    if (!IS_DEV) return null;
+    if (!this.state.errorInfo || !this.state.errorInfo.componentStack) return null;
+    return (
+      <Code>
+        <code>{this.state.errorInfo.componentStack}</code>
+      </Code>
+    );
+  };
+
+  public render() {
+    if (!this.state.hasError) {
+      return this.props.children;
+    }
+
+    return (
+      <StyledGlobalErrorBoundary>
+        {this.renderErrorStack()}
+
+        <Inner>
+          <img src={netErrorImg} alt="网络错误" />
+          <h3>网络连接异常</h3>
+          <p>请检查网络后点击刷新</p>
+          <Button onClick={this.reload}>点击刷新</Button>
+        </Inner>
+      </StyledGlobalErrorBoundary>
+    );
+  }
+}
