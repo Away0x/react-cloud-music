@@ -1,7 +1,13 @@
 import React, { lazy } from 'react';
 import { Route, Switch, Redirect } from 'react-router-dom';
 
-import { SpecialRoutePath, RecommondRoutePath, SingersRoutePath, RankRoutePath } from 'constants/router';
+import {
+  SpecialRoutePath,
+  RecommondRoutePath,
+  SingersRoutePath,
+  RankRoutePath,
+  SearchRoutePath,
+} from 'constants/router';
 import { useFirstLoad } from 'containers/AuthContainer';
 import HomeContainer from 'containers/HomeContainer';
 import Suspense from 'components/Suspense';
@@ -14,6 +20,7 @@ const Singers = lazy(() => import(/* webpackChunkName: 'singers-page' */ 'pages/
 const Rank = lazy(() => import(/* webpackChunkName: 'rank-page' */ 'pages/Rank'));
 const Album = lazy(() => import(/* webpackChunkName: 'album-page' */ 'pages/Album'));
 const Singer = lazy(() => import(/* webpackChunkName: 'singer-page' */ 'pages/Singer'));
+const Search = lazy(() => import(/* webpackChunkName: 'search-page' */ 'pages/Search'));
 
 function RootRoutes() {
   const { ready } = useFirstLoad();
@@ -69,6 +76,11 @@ function RootRoutes() {
                 </Switch>
               </Rank>
             </Suspense>
+          </Route>
+
+          {/* 搜索页 */}
+          <Route path={SearchRoutePath.Root}>
+            <Suspense component={<Search />} />
           </Route>
 
           {/* not found */}

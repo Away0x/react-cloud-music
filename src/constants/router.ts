@@ -28,6 +28,11 @@ export class RankRoutePath {
   }
 }
 
+/** 搜索页的 path */
+export class SearchRoutePath {
+  public static Root = '/search';
+}
+
 /** 特殊页面的 path */
 export class SpecialRoutePath {
   public static Root = '/';

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useHistory } from 'react-router-dom';
 
-import { RecommondRoutePath, SingersRoutePath, RankRoutePath } from 'constants/router';
+import { RecommondRoutePath, SingersRoutePath, RankRoutePath, SearchRoutePath } from 'constants/router';
 import Drawer from 'components/Drawer';
 
 import StyledHome, { Top, Tab, TabItem } from './style';
@@ -12,6 +12,7 @@ interface HomeLayoutProps {
 }
 
 function HomeLayout({ children }: HomeLayoutProps) {
+  const history = useHistory();
   const [showDrawer, setShowDrawer] = useState(false);
 
   return (
@@ -25,7 +26,9 @@ function HomeLayout({ children }: HomeLayoutProps) {
           &#xe65c;
         </span>
         <span className="title">云音乐</span>
-        <span className="iconfont search">&#xe62b;</span>
+        <span className="iconfont search" onClick={() => history.push(SearchRoutePath.Root)}>
+          &#xe62b;
+        </span>
       </Top>
       <Tab>
         <NavLink to={RecommondRoutePath.Root} activeClassName="selected">

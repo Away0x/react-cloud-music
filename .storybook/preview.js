@@ -3,16 +3,16 @@ import { addDecorator, addParameters } from '@storybook/react';
 
 import './preview.css';
 
-import ThemeContainer from '../src/containers/ThemeContainer';
+import { ThemeProvider } from 'containers/ThemeContainer';
 import StyledGlobal from '../src/styles/global';
 import StyledIconFont from '../src/assets/iconfont';
 
 addDecorator((storyFn) => (
-  <ThemeContainer>
+  <ThemeProvider>
     <StyledGlobal />
     <StyledIconFont />
     {storyFn()}
-  </ThemeContainer>
+  </ThemeProvider>
 ));
 
 addParameters({
