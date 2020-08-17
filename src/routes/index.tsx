@@ -1,13 +1,9 @@
 import React, { lazy } from 'react';
 import { Route, Switch, Redirect } from 'react-router-dom';
 
-import { useFirstLoad } from 'containers/AuthContainer';
-import RecommendContainer from 'containers/RecommendContainer';
-import SingersContainer from 'containers/SingersContainer';
-import RankContainer from 'containers/RankContainer';
-import PlayerContainer from 'containers/PlayerContainer';
-
 import { SpecialRoutePath, RecommondRoutePath, SingersRoutePath, RankRoutePath } from 'constants/router';
+import { useFirstLoad } from 'containers/AuthContainer';
+import HomeContainer from 'containers/HomeContainer';
 import Suspense from 'components/Suspense';
 import { Loading } from 'components/Loading';
 import HomeLayout from 'layouts/Home';
@@ -19,26 +15,13 @@ const Rank = lazy(() => import(/* webpackChunkName: 'rank-page' */ 'pages/Rank')
 const Album = lazy(() => import(/* webpackChunkName: 'album-page' */ 'pages/Album'));
 const Singer = lazy(() => import(/* webpackChunkName: 'singer-page' */ 'pages/Singer'));
 
-/** 首页 tab 依赖的 containers */
-function HomeProviders({ children }: { children: React.ReactNode }) {
-  return (
-    <RecommendContainer.Provider>
-      <SingersContainer.Provider>
-        <RankContainer.Provider>
-          <PlayerContainer.Provider>{children}</PlayerContainer.Provider>
-        </RankContainer.Provider>
-      </SingersContainer.Provider>
-    </RecommendContainer.Provider>
-  );
-}
-
 function RootRoutes() {
   const { ready } = useFirstLoad();
 
   if (!ready) return <Loading full />;
 
   return (
-    <HomeProviders>
+    <HomeContainer>
       <HomeLayout>
         <Switch>
           {/* 首页 */}
@@ -92,7 +75,7 @@ function RootRoutes() {
           <Route path={SpecialRoutePath.Any} component={NotFound} />
         </Switch>
       </HomeLayout>
-    </HomeProviders>
+    </HomeContainer>
   );
 }
 
