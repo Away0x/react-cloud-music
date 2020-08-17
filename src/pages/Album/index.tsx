@@ -1,5 +1,4 @@
 import React, { useState, useCallback, useEffect, useRef } from 'react';
-import { CSSTransition } from 'react-transition-group';
 import { useHistory, useParams } from 'react-router-dom';
 
 import AlbumContainer from 'containers/AlbumContainer';
@@ -8,6 +7,7 @@ import Header from 'components/Header';
 import { Loading } from 'components/Loading';
 import AlbumDetail from 'components/AlbumDetail';
 import Scroll from 'components/Scroll';
+import AnimatePage from 'components/AnimatePage';
 
 import StyledAlbum from './style';
 
@@ -66,7 +66,7 @@ function Album() {
   }, [getAlbumList, id]);
 
   return (
-    <CSSTransition in={showPage} timeout={300} classNames="fly" appear={true} unmountOnExit onExited={goBack}>
+    <AnimatePage showPage={showPage} onExited={goBack}>
       <StyledAlbum>
         <Header ref={headerRef} isMarquee={isMarquee} onBackButtonClick={handleBackButtonClick}>
           {title}
@@ -78,7 +78,7 @@ function Album() {
         )}
         {loading && <Loading full />}
       </StyledAlbum>
-    </CSSTransition>
+    </AnimatePage>
   );
 }
 

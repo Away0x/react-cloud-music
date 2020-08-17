@@ -1,4 +1,4 @@
-import React, { lazy, Suspense } from 'react';
+import React, { lazy } from 'react';
 import { Route, Switch, Redirect } from 'react-router-dom';
 
 import RecommendContainer from 'containers/RecommendContainer';
@@ -8,8 +8,8 @@ import PlayerContainer from 'containers/PlayerContainer';
 import AlbumContainer from 'containers/AlbumContainer';
 
 import { SpecialRoutePath, RecommondRoutePath, SingersRoutePath, RankRoutePath } from 'constants/router';
+import Suspense from 'components/Suspense';
 import HomeLayout from 'layouts/Home';
-import { Loading } from 'components/Loading';
 
 import NotFound from 'pages/Errors/NotFound';
 const Recommend = lazy(() => import(/* webpackChunkName: 'recommend-page' */ 'pages/Recommend'));
@@ -18,7 +18,7 @@ const Rank = lazy(() => import(/* webpackChunkName: 'rank-page' */ 'pages/Rank')
 const Album = lazy(() => import(/* webpackChunkName: 'album-page' */ 'pages/Album'));
 const Singer = lazy(() => import(/* webpackChunkName: 'singer-page' */ 'pages/Singer'));
 
-function ProviderContainer({ children }: { children: React.ReactNode }) {
+function Providers({ children }: { children: React.ReactNode }) {
   return (
     <RecommendContainer.Provider>
       <SingersContainer.Provider>
@@ -32,7 +32,7 @@ function ProviderContainer({ children }: { children: React.ReactNode }) {
 
 function RootRoutes() {
   return (
-    <ProviderContainer>
+    <Providers>
       <HomeLayout>
         <Switch>
           {/* 首页 */}
@@ -42,16 +42,14 @@ function RootRoutes() {
 
           {/* 推荐页 */}
           <Route path={RecommondRoutePath.Root}>
-            <Suspense fallback={<Loading full />}>
+            <Suspense>
               <Recommend>
                 <Switch>
                   {/* 推荐页详情 */}
                   <Route exact path={RecommondRoutePath.Detail}>
-                    <Suspense fallback={<Loading full />}>
-                      <AlbumContainer.Provider>
-                        <Album />
-                      </AlbumContainer.Provider>
-                    </Suspense>
+                    <AlbumContainer.Provider>
+                      <Suspense component={<Album />} />
+                    </AlbumContainer.Provider>
                   </Route>
                 </Switch>
               </Recommend>
@@ -60,14 +58,12 @@ function RootRoutes() {
 
           {/* 歌手页 */}
           <Route path={SingersRoutePath.Root}>
-            <Suspense fallback={<Loading full />}>
+            <Suspense>
               <Singers>
                 <Switch>
                   {/* 歌手页详情 */}
                   <Route exact path={SingersRoutePath.Detail}>
-                    <Suspense fallback={<Loading full />}>
-                      <Singer />
-                    </Suspense>
+                    <Suspense component={<Singer />} />
                   </Route>
                 </Switch>
               </Singers>
@@ -76,16 +72,14 @@ function RootRoutes() {
 
           {/* 排行榜页 */}
           <Route path={RankRoutePath.Root}>
-            <Suspense fallback={<Loading full />}>
+            <Suspense>
               <Rank>
                 <Switch>
                   {/* 排行榜页详情 */}
                   <Route exact path={RankRoutePath.Detail}>
-                    <Suspense fallback={<Loading full />}>
-                      <AlbumContainer.Provider>
-                        <Album />
-                      </AlbumContainer.Provider>
-                    </Suspense>
+                    <AlbumContainer.Provider>
+                      <Suspense component={<Album />} />
+                    </AlbumContainer.Provider>
                   </Route>
                 </Switch>
               </Rank>
@@ -93,12 +87,10 @@ function RootRoutes() {
           </Route>
 
           {/* not found */}
-          <Route path={SpecialRoutePath.Any}>
-            <NotFound />
-          </Route>
+          <Route path={SpecialRoutePath.Any} component={NotFound} />
         </Switch>
       </HomeLayout>
-    </ProviderContainer>
+    </Providers>
   );
 }
 

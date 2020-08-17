@@ -1,7 +1,8 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useState } from 'react';
 import { useHistory, useParams } from 'react-router-dom';
 
 import Header from 'components/Header';
+import AnimatePage from 'components/AnimatePage';
 
 import StyledSinger from './style';
 
@@ -13,16 +14,24 @@ function Singer() {
   const history = useHistory();
   const { id } = useParams<SingerRouteParams>();
 
+  const [showPage, setShowPage] = useState(true);
+
+  const handleBackButtonClick = useCallback(() => {
+    setShowPage(false);
+  }, []);
+
   const goBack = useCallback(() => {
     history.goBack();
   }, [history]);
 
   return (
-    <StyledSinger>
-      <Header style={{ background: 'red' }} onBackButtonClick={goBack}>
-        Singer {id}
-      </Header>
-    </StyledSinger>
+    <AnimatePage showPage={showPage} onExited={goBack}>
+      <StyledSinger>
+        <Header style={{ background: 'red' }} onBackButtonClick={handleBackButtonClick}>
+          Singer {id}
+        </Header>
+      </StyledSinger>
+    </AnimatePage>
   );
 }
 
