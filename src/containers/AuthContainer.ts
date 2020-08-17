@@ -1,10 +1,10 @@
-import { useMemo, useCallback, useEffect } from 'react';
+import { useMemo, useCallback, useEffect, useState } from 'react';
 import { createContainer } from 'unstated-next';
 import { useImmer } from 'use-immer';
 
-import { TokenStorage } from 'services/storage/token';
+import TokenStorage from 'services/storage/token';
 import { authEventEmitter } from 'events/auth';
-import { loginService } from 'services';
+import { loginService, getUserService } from 'services';
 
 type LoginParams = {
   username: string;
@@ -39,6 +39,7 @@ interface AuthActions {
 type UseAuth = AuthState & AuthComputedState & AuthActions;
 
 function useAuth(initialState?: AuthState | null): UseAuth {
+  console.log(initialState);
   const [authState, updateAuthState] = useImmer<AuthState>(
     initialState || {
       token: '',
@@ -127,4 +128,47 @@ function useAuth(initialState?: AuthState | null): UseAuth {
 
 const AuthContainer = createContainer(useAuth);
 
+/** 首屏加载 */
+function useFirstLoad() {
+  const [ready, setReady] = useState(false);
+
+  const { token, userData, updateUserDataAction } = AuthContainer.useContainer();
+
+  const getUserData = useCallback(async () => {
+    console.log('getUserData');
+    const { status, message, data } = await getUserService();
+
+    if (!status) {
+      alert(message);
+      return;
+    }
+
+    if (!data) {
+      alert('user data error');
+      return;
+    }
+
+    updateUserDataAction(data);
+  }, [updateUserDataAction]);
+
+  useEffect(() => {
+    if (ready) return;
+    console.log(ready, token);
+    // token 存在但是没有用户信息，发请求拉取用户信息
+    if (token && !userData) {
+      getUserData().then(() => {
+        setReady(true);
+      });
+    } else {
+      setReady(true);
+    }
+  }, [ready, token, userData, getUserData]);
+
+  return {
+    ready,
+  };
+}
+
 export default AuthContainer;
+
+export { useFirstLoad };

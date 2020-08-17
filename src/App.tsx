@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useMemo } from 'react';
 import { HashRouter as Router } from 'react-router-dom';
 
 import { ThemeState, ThemeProvider } from 'containers/ThemeContainer';
@@ -6,11 +6,13 @@ import AuthContainer, { AuthState } from 'containers/AuthContainer';
 import StyledGlobal from 'styles/global';
 import StyledIconFont from 'assets/iconfont';
 import { GlobalErrorBoundary } from 'components/ErrorBoundary';
-import { TokenStorage } from 'services/storage/token';
+import TokenStorage from 'services/storage/token';
 import RootRoutes from 'routes';
 
-type InitState = AuthState & ThemeState;
-
+interface InitState {
+  theme: ThemeState;
+  auth: AuthState;
+}
 /** 尝试从 window 上获取基础数据 */
 function getWindowBaseData(): InitState | null {
   const baseDataString = (window as any).__BASE_DATA__ || '';
@@ -28,36 +30,25 @@ function getWindowBaseData(): InitState | null {
 
 function getDefaultInitData(): InitState {
   return {
-    token: TokenStorage.get(),
-    userData: null,
-    statusBarHeight: 0,
+    theme: {
+      statusBarHeight: 0,
+    },
+    auth: {
+      token: TokenStorage.get(),
+      userData: null,
+    },
   };
 }
 
 function App() {
-  const [authState, setAuthState] = useState<AuthState | null>(null);
-  const [themeState, setThemeState] = useState<ThemeState | null>(null);
-
-  useEffect(() => {
-    let initData = getWindowBaseData();
-
-    if (!initData) {
-      initData = getDefaultInitData();
-    }
-
-    setAuthState({
-      token: initData.token,
-      userData: initData.userData,
-    });
-    setThemeState({
-      statusBarHeight: initData.statusBarHeight,
-    });
+  const initData = useMemo(() => {
+    return getWindowBaseData() || getDefaultInitData();
   }, []);
 
   return (
     <GlobalErrorBoundary>
-      <ThemeProvider initialState={themeState}>
-        <AuthContainer.Provider initialState={authState}>
+      <ThemeProvider initialState={initData.theme}>
+        <AuthContainer.Provider initialState={initData.auth}>
           {/* 全局样式 */}
           <StyledGlobal />
           <StyledIconFont />

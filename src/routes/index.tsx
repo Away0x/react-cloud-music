@@ -1,7 +1,7 @@
 import React, { lazy } from 'react';
 import { Route, Switch, Redirect } from 'react-router-dom';
 
-// import AuthContainer from 'containers/AuthContainer';
+import { useFirstLoad } from 'containers/AuthContainer';
 import RecommendContainer from 'containers/RecommendContainer';
 import SingersContainer from 'containers/SingersContainer';
 import RankContainer from 'containers/RankContainer';
@@ -9,6 +9,7 @@ import PlayerContainer from 'containers/PlayerContainer';
 
 import { SpecialRoutePath, RecommondRoutePath, SingersRoutePath, RankRoutePath } from 'constants/router';
 import Suspense from 'components/Suspense';
+import { Loading } from 'components/Loading';
 import HomeLayout from 'layouts/Home';
 
 import NotFound from 'pages/Errors/NotFound';
@@ -32,6 +33,10 @@ function HomeProviders({ children }: { children: React.ReactNode }) {
 }
 
 function RootRoutes() {
+  const { ready } = useFirstLoad();
+
+  if (!ready) return <Loading full />;
+
   return (
     <HomeProviders>
       <HomeLayout>

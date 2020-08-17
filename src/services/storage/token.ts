@@ -6,7 +6,7 @@
 import { TOKEN_KEY } from 'config';
 import Cookies from 'tools/cookie';
 
-export class TokenStorage {
+export default class TokenStorage {
   public static readonly key = TOKEN_KEY;
   private static tokenStore: null | string = null;
 

@@ -9,7 +9,7 @@ type ErrorResp<T = any> = {
 export interface RequestConfig extends AxiosRequestConfig {
   json?: boolean;
   formData?: boolean;
-  mockCallback?: (config: RequestConfig) => any;
+  getMockData?: (config: RequestConfig) => any;
 }
 
 const JSON_CONTENT_TYPE = { 'Content-Type': 'application/json;charset=UTF-8' };
@@ -67,8 +67,8 @@ export class HTTPClient<Req extends RequestConfig = RequestConfig, Resp = any> {
       config = this.requestResolve(config);
     }
 
-    if (config.mockCallback) {
-      return config.mockCallback(config);
+    if (config.getMockData) {
+      return config.getMockData(config);
     }
 
     try {

@@ -8,7 +8,7 @@ const mockData: MockData = {
   /** 登录 */
   '/login': (config: CommonRequestConfig): Response.Login => {
     return {
-      token: `mocktoken123456+${config.data.password}`,
+      token: `mocktoken${config.data.password}`,
       user: {
         userid: 1,
         username: config.data.username,
