@@ -92,6 +92,6 @@ declare namespace Data {
 
   export interface SuggestData {
     artists?: SingerListItem[];
-    playlists?: AlbumListItem[];
+    playlists?: AlbumDetail[];
   }
 }

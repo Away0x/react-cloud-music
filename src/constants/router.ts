@@ -33,6 +33,14 @@ export class SearchRoutePath {
   public static Root = '/search';
 }
 
+/** 歌单页的 path */
+export class AlbumRoutePath {
+  public static Detail = '/album/:id';
+  public static buildDetailPath(id: number): string {
+    return this.Detail.replace(':id', String(id));
+  }
+}
+
 /** 特殊页面的 path */
 export class SpecialRoutePath {
   public static Root = '/';

@@ -1,29 +1,22 @@
 import React, { useCallback, useState } from 'react';
 import { useHistory } from 'react-router-dom';
-import { forceCheck } from 'react-lazyload';
-import { useRequest } from 'ahooks';
 
+import SearchContainer from 'containers/SearchContainer';
 import SearchBox from 'components/SearchBox';
 import AnimatePage from 'components/AnimatePage';
-import Scroll from 'components/Scroll';
 import { Loading } from 'components/Loading';
-import {
-  getHotKeyWordsService,
-  // getSuggestListService,
-  // getResultSongsListService
-} from 'services';
 
-import StyledSearch, { ShortcutWrapper, HotKey } from './style';
+import StyledSearch from './style';
+import HotKeyList from './HotKeyList';
+import ResultList from './ResultList';
+import { useMount } from 'ahooks';
 
 function Search() {
   const history = useHistory();
+  const { loading, hotList, suggestList, songsList, getHotKeyWords, getSuggestList } = SearchContainer.useContainer();
 
   const [showPage, setShowPage] = useState(true);
   const [query, setQuery] = useState('');
-
-  const { loading, data: hotKeyList } = useRequest(getHotKeyWordsService, {
-    loadingDelay: 300,
-  });
 
   const handleBackButtonClick = useCallback(() => {
     setShowPage(false);
@@ -33,39 +26,38 @@ function Search() {
     history.goBack();
   }, [history]);
 
-  const onSearch = useCallback((q: string) => {
+  const onSearch = useCallback(
+    (q: string) => {
+      setQuery(q);
+      if (!q) return;
+      getSuggestList(q);
+    },
+    [getSuggestList],
+  );
+
+  const enterDetail = useCallback(
+    (path: string) => {
+      history.push(path);
+    },
+    [history],
+  );
+
+  const handleHotKeyItemClick = useCallback((q: string) => {
     setQuery(q);
   }, []);
+
+  useMount(() => {
+    if (!hotList.length) getHotKeyWords();
+  });
 
   return (
     <AnimatePage showPage={showPage} onExited={goBack} anim="move">
       <StyledSearch>
         <SearchBox newQuery={query} onSearch={onSearch} onBackButtonClick={handleBackButtonClick} />
         {/* 热门搜索 */}
-        <ShortcutWrapper show={!query}>
-          <Scroll>
-            <HotKey>
-              <h1>热门搜索</h1>
-              <ul>
-                {hotKeyList &&
-                  hotKeyList.map((item) => {
-                    return (
-                      <li key={item.first} onClick={() => setQuery(item.first)}>
-                        <span>{item.first}</span>
-                      </li>
-                    );
-                  })}
-              </ul>
-            </HotKey>
-          </Scroll>
-        </ShortcutWrapper>
+        <HotKeyList show={!query} list={hotList} onItemClick={handleHotKeyItemClick} />
         {/* 搜索结果 */}
-        <ShortcutWrapper show={!!query}>
-          <Scroll onScroll={forceCheck}>
-            <div></div>
-          </Scroll>
-        </ShortcutWrapper>
-
+        <ResultList show={!!query} suggestList={suggestList} songsList={songsList} onItemClick={enterDetail} />
         {loading && <Loading full />}
       </StyledSearch>
     </AnimatePage>

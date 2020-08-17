@@ -3,6 +3,16 @@ import LazyLoad from 'react-lazyload';
 
 import StyledSingerList, { ListItem, ImgWrapper, Name } from './style';
 
+function SingerImg({ src }: { src: string }) {
+  return (
+    <ImgWrapper>
+      <LazyLoad placeholder={<img width="100%" height="100%" src={require('./singer.png')} alt="singer" />}>
+        <img src={`${src}?param=300x300`} width="100%" height="100%" alt="singer" />
+      </LazyLoad>
+    </ImgWrapper>
+  );
+}
+
 interface SingerListProps {
   title?: string;
   list: Data.SingerListItem[];
@@ -16,11 +26,7 @@ function SingerList({ title, list, onItemClick }: SingerListProps) {
       {list.map((item) => {
         return (
           <ListItem key={item.id} onClick={() => onItemClick && onItemClick(item)}>
-            <ImgWrapper>
-              <LazyLoad placeholder={<img width="100%" height="100%" src={require('./singer.png')} alt="singer" />}>
-                <img src={`${item.picUrl}?param=300x300`} width="100%" height="100%" alt="singer" />
-              </LazyLoad>
-            </ImgWrapper>
+            <SingerImg src={item.picUrl} />
             <Name>{item.name}</Name>
           </ListItem>
         );
@@ -30,3 +36,5 @@ function SingerList({ title, list, onItemClick }: SingerListProps) {
 }
 
 export default React.memo(SingerList);
+
+export { SingerImg };

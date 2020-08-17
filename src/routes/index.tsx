@@ -7,6 +7,7 @@ import {
   SingersRoutePath,
   RankRoutePath,
   SearchRoutePath,
+  AlbumRoutePath,
 } from 'constants/router';
 import { useFirstLoad } from 'containers/AuthContainer';
 import HomeContainer from 'containers/HomeContainer';
@@ -81,6 +82,11 @@ function RootRoutes() {
           {/* 搜索页 */}
           <Route path={SearchRoutePath.Root}>
             <Suspense component={<Search />} />
+          </Route>
+
+          {/* 歌单详情页 */}
+          <Route path={AlbumRoutePath.Detail}>
+            <Suspense component={<Album />} />
           </Route>
 
           {/* not found */}
