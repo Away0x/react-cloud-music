@@ -1,7 +1,9 @@
-import React, { useState, useCallback, useEffect, useRef } from 'react';
+import React, { useState, useCallback, useRef } from 'react';
 import { useHistory, useParams } from 'react-router-dom';
+import { useRequest } from 'ahooks';
 
-import AlbumContainer from 'containers/AlbumContainer';
+import { getAlbumDetailService } from 'services';
+
 import ThemeContainer from 'containers/ThemeContainer';
 import Header from 'components/Header';
 import { Loading } from 'components/Loading';
@@ -18,9 +20,12 @@ interface AlbumRouteParams {
 function Album() {
   const history = useHistory();
   const { id } = useParams<AlbumRouteParams>();
-
   const { navBarHeight, themeColor } = ThemeContainer.useContainer();
-  const { loading, currentAlbum, getAlbumList } = AlbumContainer.useContainer();
+
+  const { loading, data: albumData } = useRequest(() => getAlbumDetailService(Number(id)), {
+    loadingDelay: 300,
+    refreshDeps: [id],
+  });
 
   const headerRef = useRef<HTMLDivElement>(null);
 
@@ -42,14 +47,14 @@ function Album() {
       const percent = Math.abs(pos.y / minScrollY);
       const headerDom = headerRef.current;
 
-      if (!currentAlbum) return;
+      if (!albumData) return;
       if (!headerDom) return;
 
       // 滑过顶部的高度开始变化
       if (pos.y < minScrollY) {
         headerDom.style.backgroundColor = themeColor;
         headerDom.style.opacity = `${Math.min(1, (percent - 1) / 2)}`;
-        setTitle(currentAlbum.name);
+        setTitle(albumData.name);
         setIsMarquee(true);
       } else {
         headerDom.style.backgroundColor = '';
@@ -58,12 +63,8 @@ function Album() {
         setIsMarquee(false);
       }
     },
-    [currentAlbum, navBarHeight, themeColor],
+    [albumData, navBarHeight, themeColor],
   );
-
-  useEffect(() => {
-    getAlbumList(Number(id));
-  }, [getAlbumList, id]);
 
   return (
     <AnimatePage showPage={showPage} onExited={goBack}>
@@ -71,9 +72,9 @@ function Album() {
         <Header ref={headerRef} isMarquee={isMarquee} onBackButtonClick={handleBackButtonClick}>
           {title}
         </Header>
-        {currentAlbum && (
+        {albumData && (
           <Scroll bounceTop={false} onScroll={handleScroll}>
-            <AlbumDetail data={currentAlbum} />
+            <AlbumDetail data={albumData} />
           </Scroll>
         )}
         {loading && <Loading full />}

@@ -1,11 +1,11 @@
 import React, { lazy } from 'react';
 import { Route, Switch, Redirect } from 'react-router-dom';
 
+// import AuthContainer from 'containers/AuthContainer';
 import RecommendContainer from 'containers/RecommendContainer';
 import SingersContainer from 'containers/SingersContainer';
 import RankContainer from 'containers/RankContainer';
 import PlayerContainer from 'containers/PlayerContainer';
-import AlbumContainer from 'containers/AlbumContainer';
 
 import { SpecialRoutePath, RecommondRoutePath, SingersRoutePath, RankRoutePath } from 'constants/router';
 import Suspense from 'components/Suspense';
@@ -18,7 +18,8 @@ const Rank = lazy(() => import(/* webpackChunkName: 'rank-page' */ 'pages/Rank')
 const Album = lazy(() => import(/* webpackChunkName: 'album-page' */ 'pages/Album'));
 const Singer = lazy(() => import(/* webpackChunkName: 'singer-page' */ 'pages/Singer'));
 
-function Providers({ children }: { children: React.ReactNode }) {
+/** 首页 tab 依赖的 containers */
+function HomeProviders({ children }: { children: React.ReactNode }) {
   return (
     <RecommendContainer.Provider>
       <SingersContainer.Provider>
@@ -32,7 +33,7 @@ function Providers({ children }: { children: React.ReactNode }) {
 
 function RootRoutes() {
   return (
-    <Providers>
+    <HomeProviders>
       <HomeLayout>
         <Switch>
           {/* 首页 */}
@@ -47,9 +48,7 @@ function RootRoutes() {
                 <Switch>
                   {/* 推荐页详情 */}
                   <Route exact path={RecommondRoutePath.Detail}>
-                    <AlbumContainer.Provider>
-                      <Suspense component={<Album />} />
-                    </AlbumContainer.Provider>
+                    <Suspense component={<Album />} />
                   </Route>
                 </Switch>
               </Recommend>
@@ -77,9 +76,7 @@ function RootRoutes() {
                 <Switch>
                   {/* 排行榜页详情 */}
                   <Route exact path={RankRoutePath.Detail}>
-                    <AlbumContainer.Provider>
-                      <Suspense component={<Album />} />
-                    </AlbumContainer.Provider>
+                    <Suspense component={<Album />} />
                   </Route>
                 </Switch>
               </Rank>
@@ -90,7 +87,7 @@ function RootRoutes() {
           <Route path={SpecialRoutePath.Any} component={NotFound} />
         </Switch>
       </HomeLayout>
-    </Providers>
+    </HomeProviders>
   );
 }
 
