@@ -5,7 +5,7 @@ import { DefaultTheme, ThemeProvider as StyledThemeProvider } from 'styled-compo
 
 export type ThemeState = Partial<DefaultTheme>;
 
-const Theme: DefaultTheme = {
+export const defaultTheme: DefaultTheme = {
   statusBarHeight: 0,
   navBarHeight: 45,
   themeColor: '#d44439',
@@ -35,7 +35,7 @@ interface ThemeActions {
 type UseTheme = DefaultTheme & ThemeActions;
 
 function useTheme(initialState?: ThemeState | null): UseTheme {
-  const [themeState, updateThemeState] = useImmer<DefaultTheme>({ ...initialState, ...Theme });
+  const [themeState, updateThemeState] = useImmer<DefaultTheme>({ ...initialState, ...defaultTheme });
 
   const changeTheme = useCallback(
     (theme: ThemeState) => {

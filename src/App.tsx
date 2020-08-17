@@ -42,7 +42,9 @@ function getDefaultInitData(): InitState {
 
 function App() {
   const initData = useMemo(() => {
-    return getWindowBaseData() || getDefaultInitData();
+    const data = getWindowBaseData() || getDefaultInitData();
+    console.log('[App#initData]', data);
+    return data;
   }, []);
 
   return (

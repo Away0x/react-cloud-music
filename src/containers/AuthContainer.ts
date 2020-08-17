@@ -39,7 +39,6 @@ interface AuthActions {
 type UseAuth = AuthState & AuthComputedState & AuthActions;
 
 function useAuth(initialState?: AuthState | null): UseAuth {
-  console.log(initialState);
   const [authState, updateAuthState] = useImmer<AuthState>(
     initialState || {
       token: '',
@@ -135,7 +134,6 @@ function useFirstLoad() {
   const { token, userData, updateUserDataAction } = AuthContainer.useContainer();
 
   const getUserData = useCallback(async () => {
-    console.log('getUserData');
     const { status, message, data } = await getUserService();
 
     if (!status) {
@@ -153,7 +151,6 @@ function useFirstLoad() {
 
   useEffect(() => {
     if (ready) return;
-    console.log(ready, token);
     // token 存在但是没有用户信息，发请求拉取用户信息
     if (token && !userData) {
       getUserData().then(() => {
