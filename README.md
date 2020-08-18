@@ -25,7 +25,9 @@ yarn api:dev
 yarn client:start
 ```
 
-# 部署
+---
+
+## 部署
 
 ```bash
 # 修改 public/APP-CONFIG.js API_ROOT 为 '/api' (通过 Nginx 代理到真实接口地址)
@@ -40,6 +42,8 @@ yarn api:prod:start
 
 # 配置 Nginx (详见 nginx.conf)
 ```
+
+---
 
 ## Npm Scripts
 
@@ -64,6 +68,8 @@ yarn new:client:{component,page,layout,container}
 # git commit
 yarn git:commit
 ```
+
+---
 
 ## 项目目录结构
 
@@ -102,7 +108,17 @@ yarn git:commit
 </code></pre>
 </details>
 
+---
+
 ## 其他
+
+### VsCode
+
+#### 扩展
+
+- Prettier
+- ESLint
+- vscode-styled-components
 
 ### StoryBook 组件文档
 
@@ -120,3 +136,5 @@ cd project
 hygen init self
 hygen generator new component # 创建 component 命令
 ```
+
+---
