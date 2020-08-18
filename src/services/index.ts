@@ -60,13 +60,20 @@ export async function getSingerListService(
   alpha: string,
   count: number,
 ): Promise<Data.SingerListItem[]> {
+  const params: any = {
+    initial: alpha.toLowerCase(),
+    offset: count,
+  };
+
+  if (category && category.indexOf('|')) {
+    const arr = category.split('|');
+    params.area = arr[0];
+    params.type = arr[1];
+  }
+
   const result = await client.get({
     url: '/artist/list',
-    params: {
-      cat: category,
-      initial: alpha.toLowerCase(),
-      offset: count,
-    },
+    params,
   });
 
   return result.data?.artists || [];

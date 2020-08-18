@@ -2,9 +2,10 @@ const W: any = window;
 
 const APP_CONFIG: { [key: string]: any } = W.APP_CONFIG;
 if (!APP_CONFIG) {
-  console.error('APP_CONFIG.js 不存在，请检查!');
+  console.error('APP-CONFIG.js 不存在，请检查!');
 }
 
+// 接口地址
 export const API_ROOT: string = APP_CONFIG.API_ROOT || '';
 
 // ---------------------------- key ----------------------------

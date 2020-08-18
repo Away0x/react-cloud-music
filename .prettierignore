@@ -1,2 +1,5 @@
 public
+storybook-static
+build
+NeteaseCloudMusicApi
 config-overrides.js

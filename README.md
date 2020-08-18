@@ -2,26 +2,67 @@
 
 > 参考 https://github.com/sanyuan0704/react-cloud-music，升级为 TypeScript 版本
 
-## Scripts
+- [预览地址](http://cloudmusic.frontendgo.com)
+- [组件文档地址](http://cloudmusic.frontendgo.com/storybook)
+
+## 启动项目
+
+- 可在 `public/APP-CONFIG.js` 中配置 `API_ROOT`，指定接口地址
 
 ```bash
-# 启动项目
-yarn start
+# 下载 client 依赖
+cd react-cloud-music
+yarn
 
-# 编译
-yarn build
+# 下载 api 依赖
+git submodule update --init --recursive
+cd NeteaseCloudMusicApi
+yarn
+cd ..
 
-# 生成依赖分析
-yarn report
+# 启动
+yarn api:dev
+yarn client:start
+```
 
-# 开发 storybook
-yarn storybook
+# 部署
 
-# 创建一个通用组件/页面/布局/容器
-yarn new:component/page/layout/container
+```bash
+# 修改 public/APP-CONFIG.js API_ROOT 为 '/api' (通过 Nginx 代理到真实接口地址)
+
+# 编译 client
+yarn client:build
+yarn client:storybook:build
+
+# 启动 server
+yarn server:prod:start
+yarn api:prod:start
+
+# 配置 Nginx (详见 nginx.conf)
+```
+
+## Npm Scripts
+
+```bash
+# client node server
+yarn server:dev:{start}
+yarn server:prod:{start,stop,restart,status}
+
+# api server
+yarn api:dev:{start}
+yarn api:prod:{start,stop,restart,status}
+
+# react app {启动,编译,测试,依赖分析}
+yarn client:{start,build,test,report}
+
+# 组件文档 storybook
+yarn client:storybook:{dev,build}
+
+# 代码生成器 (创建一个{通用组件,页面,布局,容器})
+yarn new:client:{component,page,layout,container}
 
 # git commit
-yarn commit
+yarn git:commit
 ```
 
 ## 项目目录结构
@@ -61,16 +102,16 @@ yarn commit
 </code></pre>
 </details>
 
-## 环境
+## 其他
 
-### storybook
+### StoryBook 组件文档
 
 ```bash
 # init
 npx -p @storybook/cli sb init
 ```
 
-### hygen
+### Hygen 代码生成器
 
 ```bash
 # init

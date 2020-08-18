@@ -6,6 +6,7 @@ const app = express();
 
 app.use(compression());
 app.use(express.static('./build'));
+app.use('/storybook', express.static('./storybook-static'));
 
 module.exports = app.listen(port, (err) => {
   if (err) {
