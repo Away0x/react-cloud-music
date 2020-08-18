@@ -5,7 +5,7 @@ import Marquee from 'components/Marquee';
 
 import StyledHeader, { Back } from './style';
 
-interface HeaderProps {
+export interface HeaderProps {
   children?: React.ReactNode | string;
   isMarquee?: boolean; // 是否为走马灯
   style?: React.CSSProperties;

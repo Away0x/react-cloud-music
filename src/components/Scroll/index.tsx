@@ -69,19 +69,23 @@ const Scroll = forwardRef<ScrollerHandlers, ScrollProps>(
     );
 
     // 暴露给外部的方法
-    useImperativeHandle(ref, () => {
-      return {
-        refresh() {
-          if (bScroll) {
-            bScroll.refresh();
-            bScroll.scrollTo(0, 0);
-          }
-        },
-        getBScroll() {
-          return bScroll || null;
-        },
-      };
-    });
+    useImperativeHandle(
+      ref,
+      () => {
+        return {
+          refresh() {
+            if (bScroll) {
+              bScroll.refresh();
+              bScroll.scrollTo(0, 0);
+            }
+          },
+          getBScroll() {
+            return bScroll || null;
+          },
+        };
+      },
+      [bScroll],
+    );
 
     useEffect(() => {
       setBScroll(

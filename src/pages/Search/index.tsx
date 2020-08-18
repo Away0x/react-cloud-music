@@ -1,9 +1,9 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useState, useRef } from 'react';
 import { useHistory } from 'react-router-dom';
 
 import SearchContainer from 'containers/SearchContainer';
 import SearchBox from 'components/SearchBox';
-import AnimatePage from 'components/AnimatePage';
+import SubPage, { SubPageHandlers } from 'components/SubPage';
 import { Loading } from 'components/Loading';
 
 import StyledSearch from './style';
@@ -15,16 +15,8 @@ function Search() {
   const history = useHistory();
   const { loading, hotList, suggestList, songsList, getHotKeyWords, getSuggestList } = SearchContainer.useContainer();
 
-  const [showPage, setShowPage] = useState(true);
+  const subPageRef = useRef<SubPageHandlers>(null);
   const [query, setQuery] = useState('');
-
-  const handleBackButtonClick = useCallback(() => {
-    setShowPage(false);
-  }, []);
-
-  const goBack = useCallback(() => {
-    history.goBack();
-  }, [history]);
 
   const onSearch = useCallback(
     (q: string) => {
@@ -34,6 +26,11 @@ function Search() {
     },
     [getSuggestList],
   );
+
+  const closePage = useCallback(() => {
+    if (!subPageRef.current) return;
+    subPageRef.current.close();
+  }, []);
 
   const enterDetail = useCallback(
     (path: string) => {
@@ -51,16 +48,18 @@ function Search() {
   });
 
   return (
-    <AnimatePage showPage={showPage} onExited={goBack} anim="move">
+    <SubPage
+      ref={subPageRef}
+      anim="move"
+      header={<SearchBox newQuery={query} onSearch={onSearch} onBackButtonClick={closePage} />}>
       <StyledSearch>
-        <SearchBox newQuery={query} onSearch={onSearch} onBackButtonClick={handleBackButtonClick} />
         {/* 热门搜索 */}
         <HotKeyList show={!query} list={hotList} onItemClick={handleHotKeyItemClick} />
         {/* 搜索结果 */}
         <ResultList show={!!query} suggestList={suggestList} songsList={songsList} onItemClick={enterDetail} />
         {loading && <Loading full />}
       </StyledSearch>
-    </AnimatePage>
+    </SubPage>
   );
 }
 
