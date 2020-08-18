@@ -139,3 +139,12 @@ hygen generator new component # 创建 component 命令
 ```
 
 ---
+
+<p style="padding:5%">
+  <img title="推荐列表页" alt="推荐列表页" src="./readme/1.png" style="width:40%;margin-bottom:5%;margin-right:5%" />
+  <img title="歌手列表页" alt="歌手列表页" src="./readme/2.png" style="width:40%;margin-bottom:5%;margin-right:5%" />
+  <img title="排行榜页" alt="排行榜页" src="./readme/3.png" style="width:40%;margin-bottom:5%;margin-right:5%" />
+  <img title="歌单详情页" alt="歌单详情页" src="./readme/4.png" style="width:40%;margin-bottom:5%;margin-right:5%" />
+  <img title="搜索页" alt="搜索页" src="./readme/5.png" style="width:40%;margin-bottom:5%;margin-right:5%" />
+  <img title="搜索结果页" alt="搜索结果页" src="./readme/6.png" style="width:40%;margin-bottom:5%;margin-right:5%" />
+</p>

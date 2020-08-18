@@ -20,9 +20,9 @@
     "server:prod:status": "pm2 describe react-cloud-music",
     "api:dev:start": "cd NeteaseCloudMusicApi && yarn start",
     "api:prod:start": "pm2 start ./NeteaseCloudMusicApi/app.js --name cloud-music-api",
-    "api:prod:stop": "pm2 stop ./NeteaseCloudMusicApi/app.js --name cloud-music-api",
-    "api:prod:restart": "pm2 restart ./NeteaseCloudMusicApi/app.js --name cloud-music-api",
-    "api:prod:status": "pm2 describe ./NeteaseCloudMusicApi/app.js --name cloud-music-api",
+    "api:prod:stop": "pm2 stop cloud-music-api",
+    "api:prod:restart": "pm2 restart cloud-music-api",
+    "api:prod:status": "pm2 describe cloud-music-api",
     "pm2:monit": "pm2 monit",
     "git:commit": "git-cz"
   },
