@@ -1,6 +1,6 @@
 /* COMPONENT DOCUMENT
  * author: wutong
- * date: 2020/05/18
+ * date: 2020/08/18
  * desc: token 存储
  */
 import { TOKEN_KEY } from 'config';

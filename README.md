@@ -1,7 +1,8 @@
-# react-cloud-music
+# React-Cloud-Music 仿网易云音乐 WebApp
 
-> 参考 https://github.com/sanyuan0704/react-cloud-music，升级为 TypeScript 版本
+> 参考 `https://github.com/sanyuan0704/react-cloud-music`，升级为 TypeScript 版本
 
+- 技术栈: typescript、react、react hooks、unstated-next、immer、styled-components ...
 - [预览地址](http://cloudmusic.frontendgo.com)
 - [组件文档地址](http://cloudmusic.frontendgo.com/storybook)
 

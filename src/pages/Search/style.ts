@@ -1,5 +1,7 @@
 import styled from 'styled-components';
 
+import { extendClick } from 'styles/mixins';
+
 const StyledSearch = styled.div`
   width: 100%;
   height: 100%;
@@ -39,6 +41,62 @@ const HotKey = styled.div`
   }
 `;
 
+const HistoryWrapper = styled.div`
+  position: relative;
+  margin: 0 20px;
+
+  h1 {
+    display: flex;
+    align-items: center;
+    height: 40px;
+    font-size: ${({ theme }) => theme.fontSizeM};
+    color: ${({ theme }) => theme.fontColorDescV2};
+  }
+`;
+
+const HistoryText = styled.span`
+  flex: 1;
+`;
+
+const HistoryClear = styled.span`
+  ${extendClick()}
+  .iconfont {
+    font-size: ${({ theme }) => theme.fontSizeM};
+    color: ${({ theme }) => theme.fontColorDesc};
+  }
+`;
+
+const HistoryItem = styled.li`
+  display: flex;
+  align-items: center;
+  height: 40px;
+  overflow: hidden;
+  color: ${({ theme }) => theme.fontColorDescV2};
+  border-bottom: 1px solid ${({ theme }) => theme.borderColor};
+`;
+
+const HistoryItemText = styled.span`
+  flex: 1;
+  font-size: ${({ theme }) => theme.fontSizeS};
+  color: ${({ theme }) => theme.fontColorDesc};
+`;
+
+const HistoryItemIcon = styled.span`
+  ${extendClick()}
+  .iconfont {
+    color: ${({ theme }) => theme.fontColorDesc};
+  }
+`;
+
 export default StyledSearch;
 
-export { ShortcutWrapper, HotKey };
+export {
+  ShortcutWrapper,
+  HotKey,
+  HistoryWrapper,
+  HistoryText,
+  HistoryClear,
+  HistoryItem,
+  HistoryItemText,
+  HistoryItemIcon,
+};

@@ -13,7 +13,17 @@ import { useMount } from 'ahooks';
 
 function Search() {
   const history = useHistory();
-  const { loading, hotList, suggestList, songsList, getHotKeyWords, getSuggestList } = SearchContainer.useContainer();
+  const {
+    loading,
+    hotList,
+    suggestList,
+    songsList,
+    historyList,
+    getHotKeyWords,
+    getSuggestList,
+    deleteHistory,
+    cleanHistory,
+  } = SearchContainer.useContainer();
 
   const subPageRef = useRef<SubPageHandlers>(null);
   const [query, setQuery] = useState('');
@@ -54,7 +64,14 @@ function Search() {
       header={<SearchBox newQuery={query} onSearch={onSearch} onBackButtonClick={closePage} />}>
       <StyledSearch>
         {/* 热门搜索 */}
-        <HotKeyList show={!query} list={hotList} onItemClick={handleHotKeyItemClick} />
+        <HotKeyList
+          show={!query}
+          list={hotList}
+          historyList={historyList}
+          onItemClick={handleHotKeyItemClick}
+          onDeleteHistory={deleteHistory}
+          onCleanHistory={cleanHistory}
+        />
         {/* 搜索结果 */}
         <ResultList show={!!query} suggestList={suggestList} songsList={songsList} onItemClick={enterDetail} />
         {loading && <Loading full />}
