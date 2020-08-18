@@ -1,6 +1,7 @@
 import styled from 'styled-components';
+import { animated } from 'react-spring';
 
-const StyledSubPage = styled.div`
+const StyledCSSTransitionSubPage = styled.div`
   position: fixed;
   top: 0;
   left: 0;
@@ -52,4 +53,17 @@ const StyledSubPage = styled.div`
   }
 `;
 
-export default StyledSubPage;
+const StyledSpringSubPage = styled(animated.div)`
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 1000;
+
+  width: 100%;
+  height: 100%;
+  background: ${({ theme }) => theme.backgroundColor};
+`;
+
+export { StyledCSSTransitionSubPage, StyledSpringSubPage };
