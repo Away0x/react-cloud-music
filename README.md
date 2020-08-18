@@ -116,6 +116,7 @@ yarn git:commit
 
 #### 扩展
 
+- EditorConfig
 - Prettier
 - ESLint
 - vscode-styled-components

@@ -41,7 +41,6 @@
     "compression": "^1.7.4",
     "express": "^4.17.1",
     "mitt": "^2.1.0",
-    "pm2": "^4.4.0",
     "qs": "^6.9.4",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
@@ -69,6 +68,22 @@
       "last 1 safari version"
     ]
   },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "src/*.{ts,tsx,js}": [
+      "prettier --write",
+      "exlint --ext .js --ext .tsx --ext .ts src/",
+      "git add"
+    ],
+    "*src/*.{ts,tsx,js,json,html,yml,css,less,scss,md}": [
+      "prettier --write",
+      "git add"
+    ]
+  },
   "config": {
     "commitizen": {
       "path": "node_modules/cz-conventional-changelog"
@@ -94,6 +109,9 @@
     "react-app-rewired": "^2.1.6",
     "react-scripts": "3.4.1",
     "typescript": "~3.7.2",
-    "webpack-bundle-analyzer": "^3.8.0"
+    "webpack-bundle-analyzer": "^3.8.0",
+    "husky": "^4.2.5",
+    "lint-staged": "^10.2.11",
+    "pm2": "^4.4.0"
   }
 }
