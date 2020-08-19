@@ -1,3 +1,4 @@
+import { useCallback } from 'react';
 import { createContainer } from 'unstated-next';
 import { useImmer } from 'use-immer';
 
@@ -19,17 +20,22 @@ interface PlayerComputedState {}
 
 interface PlayerActions {
   /** 切换播放状态 */
+  changePlayMode(mode: PlayMode): void;
   /** 切换播放器全屏显示 */
+  changeFullScreen(status: boolean): void;
   /** 切换播放列表显示 */
+  changeShowPlayList(status: boolean): void;
   /** 切换歌曲 */
+  changeCurrentSong(song: any): void;
   /** 播放列表 */
+  changePlayList(list: any[]): void;
   /** 修改播放速度 */
 }
 
 type UsePlayer = PlayerState & PlayerComputedState & PlayerActions;
 
 function usePlayer(): UsePlayer {
-  const [playerState] = useImmer<PlayerState>({
+  const [playerState, updatePlayerState] = useImmer<PlayerState>({
     mode: PlayMode.sequence,
     fullScreen: false,
     playing: false,
@@ -41,7 +47,52 @@ function usePlayer(): UsePlayer {
     speed: 1,
   });
 
-  return { ...playerState };
+  const changePlayMode = useCallback(
+    (mode: PlayMode) => {
+      updatePlayerState((state) => {
+        state.mode = mode;
+      });
+    },
+    [updatePlayerState],
+  );
+
+  const changeFullScreen = useCallback(
+    (status: boolean) => {
+      updatePlayerState((state) => {
+        state.fullScreen = status;
+      });
+    },
+    [updatePlayerState],
+  );
+
+  const changeShowPlayList = useCallback(
+    (status: boolean) => {
+      updatePlayerState((state) => {
+        state.showPlayList = status;
+      });
+    },
+    [updatePlayerState],
+  );
+
+  const changeCurrentSong = useCallback(
+    (song: any) => {
+      updatePlayerState((state) => {
+        state.currentSong = song;
+      });
+    },
+    [updatePlayerState],
+  );
+
+  const changePlayList = useCallback(
+    (list: any[]) => {
+      updatePlayerState((state) => {
+        state.playList = list;
+      });
+    },
+    [updatePlayerState],
+  );
+
+  return { ...playerState, changePlayMode, changeFullScreen, changeShowPlayList, changeCurrentSong, changePlayList };
 }
 
 const PlayerContainer = createContainer(usePlayer);

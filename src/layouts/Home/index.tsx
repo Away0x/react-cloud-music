@@ -6,6 +6,7 @@ import Drawer from 'components/Drawer';
 
 import StyledHome, { Top, Tab, TabItem } from './style';
 import DrawerContent from './DrawerContent';
+import Player from './Player';
 
 interface HomeLayoutProps {
   children?: React.ReactNode;
@@ -48,6 +49,8 @@ function HomeLayout({ children }: HomeLayoutProps) {
         </NavLink>
       </Tab>
       {children}
+
+      <Player />
     </StyledHome>
   );
 }
