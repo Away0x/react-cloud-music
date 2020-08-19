@@ -11,7 +11,7 @@
     "client:build": "react-app-rewired build",
     "client:test": "react-app-rewired test",
     "client:report": "react-app-rewired build --analyze",
-    "client:storybook:dev": "start-storybook -p 9009 -s public",
+    "client:storybook:start": "start-storybook -p 9009 -s public",
     "client:storybook:build": "build-storybook -s public",
     "server:dev:start": "node server.js",
     "server:prod:start": "pm2 start ./server.js --name react-cloud-music",

@@ -61,7 +61,7 @@ yarn api:prod:{start,stop,restart,status}
 yarn client:{start,build,test,report}
 
 # 组件文档 storybook
-yarn client:storybook:{dev,build}
+yarn client:storybook:{start,build}
 
 # 代码生成器 (创建一个{通用组件,页面,布局,容器})
 yarn new:client:{component,page,layout,container}

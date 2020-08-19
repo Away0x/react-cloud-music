@@ -3,6 +3,7 @@ import { useParams } from 'react-router-dom';
 import { useRequest, useMount } from 'ahooks';
 
 import { getSingerInfoService } from 'services';
+import { prefixStyle } from 'tools/utils';
 import ThemeContainer from 'containers/ThemeContainer';
 import SubPage, { SubPageHandlers } from 'components/SubPage';
 import Scroll, { ScrollerHandlers } from 'components/Scroll';
@@ -22,6 +23,7 @@ interface SingerRouteParams {
 }
 
 const OFFSET = 5;
+const transform = prefixStyle('transform');
 
 function Singer() {
   const { id } = useParams<SingerRouteParams>();
@@ -58,8 +60,8 @@ function Singer() {
       // 因此在处理的过程中，随着内容的滚动，遮罩也跟着移动
       if (newY > 0) {
         // 处理往下拉的情况,效果：图片放大，按钮跟着偏移
-        imageDOM.style.transform = `scale(${1 + percent})`;
-        buttonDOM.style.transform = `translate3d(0, ${newY}px, 0)`;
+        imageDOM.style[transform] = `scale(${1 + percent})`;
+        buttonDOM.style[transform] = `translate3d(0, ${newY}px, 0)`;
         layerDOM.style.top = `${height - OFFSET + newY}px`;
       } else if (newY >= minScrollY) {
         // 往上滑动，但是还没超过 Header 部分
@@ -68,7 +70,7 @@ function Singer() {
         imageDOM.style.paddingTop = '75%';
         imageDOM.style.height = '0';
         imageDOM.style.zIndex = '1';
-        buttonDOM.style.transform = `translate3d(0, ${newY}px, 0)`;
+        buttonDOM.style[transform] = `translate3d(0, ${newY}px, 0)`;
         buttonDOM.style.opacity = `${1 - percent * 2}`;
       } else if (newY < minScrollY) {
         // 往上滑动，但是超过 Header 部分
