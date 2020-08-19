@@ -3,13 +3,14 @@ import { useHistory } from 'react-router-dom';
 import { CSSTransition } from 'react-transition-group';
 
 import Header from 'components/Header';
+import { Loading } from 'components/Loading';
 
 import { StyledCSSTransitionSubPage } from './style';
 
 import { SubPageProps, SubPageHandlers } from './type';
 
 const CSSTransitionSubPage = forwardRef<SubPageHandlers, SubPageProps>(
-  ({ header, title, anim = 'rotate', headerStyle, children, ...rest }, ref) => {
+  ({ header, title, anim = 'rotate', headerStyle, loading, children, ...rest }, ref) => {
     const history = useHistory();
 
     const headerRef = useRef<HTMLDivElement>(null);
@@ -48,6 +49,8 @@ const CSSTransitionSubPage = forwardRef<SubPageHandlers, SubPageProps>(
           )}
 
           {children}
+
+          {loading && <Loading full />}
         </StyledCSSTransitionSubPage>
       </CSSTransition>
     );

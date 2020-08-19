@@ -4,7 +4,6 @@ import { useHistory } from 'react-router-dom';
 import SearchContainer from 'containers/SearchContainer';
 import SearchBox from 'components/SearchBox';
 import SubPage, { SubPageHandlers } from 'components/SubPage';
-import { Loading } from 'components/Loading';
 
 import StyledSearch from './style';
 import HotKeyList from './HotKeyList';
@@ -61,6 +60,7 @@ function Search() {
     <SubPage
       ref={subPageRef}
       anim="move"
+      loading={loading}
       header={<SearchBox newQuery={query} onSearch={onSearch} onBackButtonClick={closePage} />}>
       <StyledSearch>
         {/* 热门搜索 */}
@@ -74,7 +74,6 @@ function Search() {
         />
         {/* 搜索结果 */}
         <ResultList show={!!query} suggestList={suggestList} songsList={songsList} onItemClick={enterDetail} />
-        {loading && <Loading full />}
       </StyledSearch>
     </SubPage>
   );

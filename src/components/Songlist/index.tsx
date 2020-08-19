@@ -1,6 +1,5 @@
 import React, { forwardRef } from 'react';
 
-// import { ONE_PAGE_COUNT } from 'constants/songs';
 import { getSingerName } from 'tools/song';
 
 import StyledSonglist, {
@@ -19,10 +18,11 @@ interface SonglistProps {
   showCollect?: boolean;
   collectCount?: number;
   showBackground?: boolean;
+  onItemClick?: (item: Data.SongListItem) => void;
 }
 
 const Songlist = forwardRef<HTMLDivElement, SonglistProps>(
-  ({ songs, showCollect = true, collectCount = 0, showBackground = false }, ref) => {
+  ({ songs, onItemClick, showCollect = true, collectCount = 0, showBackground = false }, ref) => {
     const totalCount = songs.length;
 
     return (
@@ -47,7 +47,7 @@ const Songlist = forwardRef<HTMLDivElement, SonglistProps>(
         <SongListContent>
           {songs.map((song, index) => {
             return (
-              <SongItem key={song.id}>
+              <SongItem key={song.id} onClick={() => onItemClick && onItemClick(song)}>
                 <SongItemIndex>{index + 1}</SongItemIndex>
                 <SongItemInfo>
                   <span>{song.name}</span>

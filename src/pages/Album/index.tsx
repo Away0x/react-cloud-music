@@ -5,7 +5,6 @@ import { useRequest } from 'ahooks';
 import { getAlbumDetailService } from 'services';
 
 import ThemeContainer from 'containers/ThemeContainer';
-import { Loading } from 'components/Loading';
 import AlbumDetail from 'components/AlbumDetail';
 import Scroll from 'components/Scroll';
 import SubPage, { SubPageHandlers } from 'components/SubPage';
@@ -56,14 +55,13 @@ function Album() {
   );
 
   return (
-    <SubPage ref={subPageRef} isMarquee={isMarquee} title={title}>
+    <SubPage ref={subPageRef} isMarquee={isMarquee} title={title} loading={loading}>
       <StyledAlbum>
         {albumData && (
           <Scroll bounceTop={false} onScroll={handleScroll}>
             <AlbumDetail data={albumData} />
           </Scroll>
         )}
-        {loading && <Loading full />}
       </StyledAlbum>
     </SubPage>
   );

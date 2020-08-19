@@ -3,12 +3,13 @@ import { useHistory } from 'react-router-dom';
 import { useTransition } from 'react-spring';
 
 import Header from 'components/Header';
+import { Loading } from 'components/Loading';
 
 import { StyledSpringSubPage } from './style';
 import { SubPageProps, SubPageHandlers } from './type';
 
 const SpringSubPage = forwardRef<SubPageHandlers, SubPageProps>(
-  ({ header, title, anim = 'rotate', headerStyle, children, ...rest }, ref) => {
+  ({ header, title, anim = 'rotate', headerStyle, loading, children, ...rest }, ref) => {
     const history = useHistory();
 
     const headerRef = useRef<HTMLDivElement>(null);
@@ -57,6 +58,8 @@ const SpringSubPage = forwardRef<SubPageHandlers, SubPageProps>(
             )}
 
             {children}
+
+            {loading && <Loading full />}
           </StyledSpringSubPage>
         ),
     );
