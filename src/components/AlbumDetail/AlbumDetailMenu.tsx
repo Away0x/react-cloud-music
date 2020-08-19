@@ -1,10 +1,12 @@
 import React from 'react';
 
+import { emitShowToastGlobalEvent } from 'events/global';
+
 import { StyledMenu } from './style';
 
 function AlbumDetailMenu() {
   const handleClick = () => {
-    alert('开发中...');
+    emitShowToastGlobalEvent('开发中...');
   };
 
   return (

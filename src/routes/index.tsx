@@ -1,4 +1,4 @@
-import React, { lazy } from 'react';
+import React, { lazy, useEffect, useCallback } from 'react';
 import { Route, Switch, Redirect } from 'react-router-dom';
 
 import {
@@ -9,10 +9,12 @@ import {
   SearchRoutePath,
   AlbumRoutePath,
 } from 'constants/router';
+import { globalEventEmitter } from 'events/global';
 import { useFirstLoad } from 'containers/AuthContainer';
 import HomeContainer from 'containers/HomeContainer';
 import Suspense from 'components/Suspense';
 import { Loading } from 'components/Loading';
+import Toast, { useToast } from 'components/Toast';
 import HomeLayout from 'layouts/Home';
 
 import NotFound from 'pages/Errors/NotFound';
@@ -25,6 +27,19 @@ const Search = lazy(() => import(/* webpackChunkName: 'search-page' */ 'pages/Se
 
 function RootRoutes() {
   const { ready } = useFirstLoad();
+  const { toastRef, showToast } = useToast();
+
+  const handleShowToast = useCallback(
+    (text?: React.ReactNode) => {
+      showToast(text);
+    },
+    [showToast],
+  );
+
+  useEffect(() => {
+    const off = globalEventEmitter.onoff('ShowToastGlobalEvent', handleShowToast);
+    return () => off();
+  }, [handleShowToast]);
 
   if (!ready) return <Loading full />;
 
@@ -93,6 +108,8 @@ function RootRoutes() {
           <Route path={SpecialRoutePath.Any} component={NotFound} />
         </Switch>
       </HomeLayout>
+
+      <Toast ref={toastRef} />
     </HomeContainer>
   );
 }

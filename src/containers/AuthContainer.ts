@@ -4,6 +4,7 @@ import { useImmer } from 'use-immer';
 
 import TokenStorage from 'services/storage/token';
 import { authEventEmitter } from 'events/auth';
+import { emitShowToastGlobalEvent } from 'events/global';
 import { loginService, getUserService } from 'services';
 
 type LoginParams = {
@@ -78,11 +79,11 @@ function useAuth(initialState?: AuthState | null): UseAuth {
       const { status, message, data } = await loginService(loginInfo.username, loginInfo.password);
 
       if (!status) {
-        alert(message);
+        emitShowToastGlobalEvent(message);
         return false;
       }
       if (!data.token) {
-        alert('token not found!');
+        emitShowToastGlobalEvent('token not found!');
         return false;
       }
 
@@ -137,12 +138,12 @@ function useFirstLoad() {
     const { status, message, data } = await getUserService();
 
     if (!status) {
-      alert(message);
+      emitShowToastGlobalEvent(message);
       return;
     }
 
     if (!data) {
-      alert('user data error');
+      emitShowToastGlobalEvent('user data error');
       return;
     }
 

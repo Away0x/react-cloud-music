@@ -1,7 +1,6 @@
 import React from 'react';
 
-import Toast from '.';
-import useToast from './useToast';
+import Toast, { useToast } from '.';
 
 export default {
   title: 'Components/Toast',
@@ -13,12 +12,10 @@ export const Default = () => {
 
   return (
     <div>
-      <button type="button" onClick={() => showToast()}>
+      <button type="button" onClick={() => showToast(<p>我是一个 toast</p>)}>
         打开 toast
       </button>
-      <Toast ref={toastRef}>
-        <p style={{ color: 'red' }}>我是一个 toast</p>
-      </Toast>
+      <Toast ref={toastRef} />
     </div>
   );
 };

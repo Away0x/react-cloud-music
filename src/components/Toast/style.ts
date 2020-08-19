@@ -5,7 +5,7 @@ const StyledToast = styled.div`
   bottom: 0;
   z-index: 1000;
   width: 100%;
-  height: 50px;
+  height: 50vh;
 
   &.drop-enter {
     opacity: 0;
@@ -23,13 +23,21 @@ const StyledToast = styled.div`
   }
 `;
 
+const ToastInner = styled.div`
+  width: 100px;
+  height: 30px;
+  background-color: rgba(51, 51, 51, 0.8);
+  border-radius: 6px;
+  margin: 0 auto;
+`;
+
 const ToastText = styled.div`
-  line-height: 50px;
+  line-height: 30px;
   text-align: center;
   color: #fff;
-  font-size: ${({ theme }) => theme.fontSizeL};
+  font-size: ${({ theme }) => theme.fontSizeS};
 `;
 
 export default StyledToast;
 
-export { ToastText };
+export { ToastInner, ToastText };

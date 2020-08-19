@@ -1,36 +1,41 @@
 import React, { useState, useImperativeHandle, forwardRef, useEffect } from 'react';
 import { CSSTransition } from 'react-transition-group';
 
-import StyledToast, { ToastText } from './style';
+import StyledToast, { ToastInner, ToastText } from './style';
+import useToast from './useToast';
 
 interface ToastProps {
   duration?: number;
-  children: React.ReactNode;
+  children?: React.ReactNode;
 }
 
 export interface ToastHandlers {
-  show(): void;
+  show(text?: React.ReactNode): void;
 }
 
 const Toast = forwardRef<ToastHandlers, ToastProps>(({ children, duration = 3000 }, ref) => {
   const [show, setShow] = useState(false);
+  const [text, setText] = useState<React.ReactNode>(null);
   const [timer, setTimer] = useState<any>(null);
 
   useImperativeHandle(
     ref,
     () => ({
-      show() {
+      show(text?: React.ReactNode) {
         if (timer) clearTimeout(timer);
-        console.log(show);
+
         setShow(true);
+        if (text) setText(text);
+
         setTimer(
           setTimeout(() => {
             setShow(false);
+            setText(null);
           }, duration),
         );
       },
     }),
-    [timer, show, duration],
+    [timer, duration],
   );
 
   useEffect(() => {
@@ -42,10 +47,14 @@ const Toast = forwardRef<ToastHandlers, ToastProps>(({ children, duration = 3000
   return (
     <CSSTransition in={show} timeout={300} classNames="drop" unmountOnExit>
       <StyledToast>
-        <ToastText>{children}</ToastText>
+        <ToastInner>
+          <ToastText>{text || children}</ToastText>
+        </ToastInner>
       </StyledToast>
     </CSSTransition>
   );
 });
 
 export default React.memo(Toast);
+
+export { useToast };

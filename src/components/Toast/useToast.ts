@@ -5,8 +5,8 @@ import { ToastHandlers } from '.';
 export default function useToast() {
   const toastRef = useRef<ToastHandlers | null>(null);
 
-  const showToast = useCallback(() => {
-    toastRef.current?.show();
+  const showToast = useCallback((text?: React.ReactNode) => {
+    toastRef.current?.show(text);
   }, []);
 
   return { showToast, toastRef };

@@ -9,6 +9,7 @@ import { API_ROOT } from 'config';
 import MOCK_DATA from 'services/mock';
 import { ApiResponseCode } from 'constants/http';
 import { emitLogoutAuthEvent } from 'events/auth';
+import { emitShowToastGlobalEvent } from 'events/global';
 import TokenStorage from 'services/storage/token';
 
 export interface CommonRequestConfig extends RequestConfig {
@@ -27,7 +28,7 @@ export const commonHttpClient = new HTTPClient<CommonRequestConfig, Response.Com
     if (response.data.code === ApiResponseCode.TOKEN_ERROR) {
       console.warn('用户未登录', response);
       if (!requestConfig.hideGlobalErrorToast) {
-        alert(response.data.msg || '用户未登录');
+        emitShowToastGlobalEvent(response.data.msg || '用户未登录');
       }
 
       emitLogoutAuthEvent();
@@ -47,7 +48,7 @@ export const commonHttpClient = new HTTPClient<CommonRequestConfig, Response.Com
 
     if (requestConfig) {
       if (!requestConfig.hideGlobalErrorToast) {
-        alert(errMsg);
+        emitShowToastGlobalEvent(errMsg);
       }
     }
 
