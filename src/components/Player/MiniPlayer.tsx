@@ -41,7 +41,7 @@ function MiniPlayer({
       <StyledMiniPlayer ref={containerRef}>
         <IconWrapper>
           <ImgWrapper play={playing}>
-            <img src={song.al.picUrl} width="40" height="40" alt="img" />
+            <img src={song.al.picUrl} width="40" height="40" alt="歌曲图片" />
           </ImgWrapper>
         </IconWrapper>
         <TextWrapper>

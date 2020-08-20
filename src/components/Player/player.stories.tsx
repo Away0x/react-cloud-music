@@ -27,7 +27,7 @@ export const DefaultMiniPlayer = () => {
 export const DefaultNormalPlayer = () => {
   return (
     <div>
-      <NormalPlayer />
+      <NormalPlayer song={currentSong} />
     </div>
   );
 };
