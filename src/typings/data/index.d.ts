@@ -80,9 +80,9 @@ declare namespace Data {
   export interface SongListItem {
     id: number;
     name: string;
-    ar: { name: string }[];
+    ar: { name: string; picUrl: string }[];
     artists?: { name: string }[];
-    al: { name: string };
+    al: { name: string; picUrl: string };
     album?: { name: string };
   }
 

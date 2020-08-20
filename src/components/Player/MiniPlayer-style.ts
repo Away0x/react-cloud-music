@@ -25,10 +25,12 @@ const StyledMiniPlayer = styled.div`
   &.mini-enter {
     transform: translate3d(0, 100%, 0);
   }
+
   &.mini-enter-active {
     transform: translate3d(0, 0, 0);
     transition: all 0.4s;
   }
+
   &.mini-exit-active {
     transform: translate3d(0, 100%, 0);
     transition: all 0.4s;
@@ -88,15 +90,42 @@ const Control = styled.div`
   flex: 0 0 30px;
   padding: 0 10px;
 
-  .iconfont {
+  .iconfont,
+  .icon-playlist {
+    font-size: 30px;
     color: ${({ theme }) => theme.themeColor};
+  }
+  .icon-mini {
     font-size: 16px;
     position: absolute;
     left: 8px;
     top: 8px;
+    &.icon-play {
+      left: 9px;
+    }
   }
+`;
+
+interface IconFontProps {
+  mini?: boolean;
+  play?: boolean;
+}
+
+const IconFont = styled.i<IconFontProps>`
+  font-size: 30px;
+  color: ${({ theme }) => theme.themeColor};
+  cursor: pointer;
+
+  ${({ mini = false, play = false }) =>
+    mini &&
+    css`
+      font-size: 16px !important;
+      position: absolute;
+      top: 8px;
+      left: ${play ? '9px' : '8px'};
+    `}
 `;
 
 export default StyledMiniPlayer;
 
-export { IconWrapper, ImgWrapper, TextWrapper, Control };
+export { IconWrapper, ImgWrapper, TextWrapper, Control, IconFont };
