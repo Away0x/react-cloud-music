@@ -20,3 +20,15 @@ export const getPlayModeText = (mode: PlayMode) => {
   }
   return text;
 };
+
+export function getPlayModeIcon(mode: PlayMode) {
+  let content;
+  if (mode === PlayMode.sequence) {
+    content = '&#xe625;';
+  } else if (mode === PlayMode.loop) {
+    content = '&#xe653;';
+  } else {
+    content = '&#xe61b;';
+  }
+  return content;
+}

@@ -84,6 +84,7 @@ declare namespace Data {
     artists?: { name: string }[];
     al: { name: string; picUrl: string };
     album?: { name: string };
+    dt: number;
   }
 
   export interface HotKeyWordItem {

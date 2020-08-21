@@ -266,9 +266,9 @@ interface ProgressTimeProps {
 const ProgressTime = styled.span<ProgressTimeProps>`
   color: ${({ theme }) => theme.fontColorDesc};
   font-size: ${({ theme }) => theme.fontSizeS};
-  flex: 0 0 30px;
+  flex: 0 0 40px;
   line-height: 30px;
-  width: 30px;
+  width: 40px;
   text-align: ${({ alignLeft = true }) => (alignLeft ? 'left' : 'right')};
 `;
 

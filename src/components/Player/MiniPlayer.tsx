@@ -11,6 +11,7 @@ interface MiniPlayerProps {
   playing?: boolean;
   percent?: number;
   song: Data.SongListItem;
+  onContainerClick?: () => void;
   onPlayButtonClick?: (status: boolean) => void; // 点击了播放按钮
   onShowListButtonClick?: () => void; // 点击了查看列表按钮
 }
@@ -20,6 +21,7 @@ function MiniPlayer({
   show = true,
   playing = false,
   percent = 0,
+  onContainerClick,
   onShowListButtonClick,
   onPlayButtonClick,
 }: MiniPlayerProps) {
@@ -38,7 +40,7 @@ function MiniPlayer({
         if (!containerRef.current) return;
         containerRef.current.style.display = 'none';
       }}>
-      <StyledMiniPlayer ref={containerRef}>
+      <StyledMiniPlayer ref={containerRef} onClick={onContainerClick}>
         <IconWrapper>
           <ImgWrapper play={playing}>
             <img src={song.al.picUrl} width="40" height="40" alt="歌曲图片" />
@@ -51,11 +53,24 @@ function MiniPlayer({
         <Control>
           <ProgressCircle width={32} percent={percent}>
             {playing ? (
-              <IconFont className="iconfont" mini onClick={() => onPlayButtonClick && onPlayButtonClick(false)}>
+              <IconFont
+                className="iconfont"
+                mini
+                onClick={(ev) => {
+                  ev.stopPropagation();
+                  onPlayButtonClick && onPlayButtonClick(false);
+                }}>
                 &#xe650;
               </IconFont>
             ) : (
-              <IconFont className="iconfont" mini play onClick={() => onPlayButtonClick && onPlayButtonClick(true)}>
+              <IconFont
+                className="iconfont"
+                mini
+                play
+                onClick={(ev) => {
+                  ev.stopPropagation();
+                  onPlayButtonClick && onPlayButtonClick(true);
+                }}>
                 &#xe61e;
               </IconFont>
             )}

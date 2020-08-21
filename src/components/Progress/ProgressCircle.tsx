@@ -4,7 +4,7 @@ import StyledProgressCircle, { ProgressBackground, ProgressBar } from './Progres
 
 interface ProgressCircleProps {
   width: number;
-  percent: number;
+  percent: number; // 0~1
   children?: React.ReactNode;
 }
 
