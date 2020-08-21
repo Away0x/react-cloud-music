@@ -84,7 +84,7 @@ function useListWrapperTouch({
 interface PlayListProps {
   show?: boolean;
   mode: PlayMode;
-  song: Data.SongListItem;
+  song?: Data.SongListItem | null;
   list: Data.SongListItem[];
   onHideList?: () => void;
   onDeleteItemSong?: (item: Data.SongListItem, index: number) => void;
@@ -208,7 +208,7 @@ function PlayList({
                       }}>
                       <ItemCurrent
                         className="iconfont"
-                        dangerouslySetInnerHTML={{ __html: song.id === item.id ? '&#xe6e3;' : '' }}
+                        dangerouslySetInnerHTML={{ __html: song?.id === item.id ? '&#xe6e3;' : '' }}
                       />
                       <ItemText>
                         {item.name} - {getSingerName(item.ar)}

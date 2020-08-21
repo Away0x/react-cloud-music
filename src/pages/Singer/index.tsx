@@ -5,6 +5,7 @@ import { useRequest, useMount } from 'ahooks';
 import { getSingerInfoService } from 'services';
 import { prefixStyle } from 'tools/utils';
 import ThemeContainer from 'containers/ThemeContainer';
+import PlayerContainer from 'containers/PlayerContainer';
 import SubPage, { SubPageHandlers } from 'components/SubPage';
 import Scroll, { ScrollerHandlers } from 'components/Scroll';
 import Songlist from 'components/Songlist';
@@ -28,6 +29,7 @@ const transform = prefixStyle('transform');
 function Singer() {
   const { id } = useParams<SingerRouteParams>();
   const { navBarHeight } = ThemeContainer.useContainer();
+  const { changePlayList, changeCurrentSongIndex } = PlayerContainer.useContainer();
 
   const initialHeightRef = useRef(0);
   const subPageRef = useRef<SubPageHandlers | null>(null);
@@ -87,6 +89,14 @@ function Singer() {
     [navBarHeight],
   );
 
+  const handleSelectSong = useCallback(
+    (_: Data.SongListItem, index: number) => {
+      changePlayList(data?.hotSongs || []);
+      changeCurrentSongIndex(index);
+    },
+    [data, changePlayList, changeCurrentSongIndex],
+  );
+
   useMount(() => {
     if (!imgWrapperRef.current || !songListRef.current || !bgLayerRef.current || !songScrollRef.current) return;
 
@@ -110,7 +120,7 @@ function Singer() {
         <BgLayer ref={bgLayerRef} />
         <SongListWrapper ref={songListRef}>
           <Scroll ref={songScrollRef} onScroll={handleScroll}>
-            <Songlist songs={data?.hotSongs || []} showCollect={false} />
+            <Songlist songs={data?.hotSongs || []} showCollect={false} onItemClick={handleSelectSong} />
           </Scroll>
         </SongListWrapper>
       </StyledSinger>

@@ -8,6 +8,7 @@ export type ThemeState = Partial<DefaultTheme>;
 export const defaultTheme: DefaultTheme = {
   statusBarHeight: 0,
   navBarHeight: 45,
+  pageBottom: 0,
   themeColor: '#d44439',
   themeColorShadow: 'rgba(212, 68, 57, .5)',
   fontColor: '#2E3030',
@@ -30,6 +31,7 @@ export const defaultTheme: DefaultTheme = {
 
 interface ThemeActions {
   changeTheme: (theme: ThemeState) => void;
+  setPlayerPageBottom: (hasPlayer: boolean) => void;
 }
 
 type UseTheme = DefaultTheme & ThemeActions;
@@ -50,9 +52,20 @@ function useTheme(initialState?: ThemeState | null): UseTheme {
     [updateThemeState],
   );
 
+  const setPlayerPageBottom = useCallback(
+    (status: boolean) => {
+      const b = status ? 60 : 0; // 有播放器时，bottom 为 60
+      changeTheme({
+        pageBottom: b,
+      });
+    },
+    [changeTheme],
+  );
+
   return {
     ...themeState,
     changeTheme,
+    setPlayerPageBottom,
   };
 }
 
@@ -77,6 +90,11 @@ function ThemeProvider({ initialState, children }: ThemeProviderProps) {
   );
 }
 
+// 监听 theme 的变化
+function useListenThemeChange() {
+  return ThemeContainer.useContainer();
+}
+
 export default ThemeContainer;
 
-export { ThemeProvider };
+export { ThemeProvider, useListenThemeChange };

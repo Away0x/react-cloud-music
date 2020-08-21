@@ -8,6 +8,8 @@ declare module 'styled-components' {
     statusBarHeight: number;
     /** 导航高度 */
     navBarHeight: number;
+    /** 页面 bottom */
+    pageBottom: number;
 
     /** color */
     themeColor: string;

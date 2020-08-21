@@ -7,15 +7,22 @@ import AlbumDetailMenu from './AlbumDetailMenu';
 
 interface AlbumDetailProps {
   data?: Data.AlbumDetail | null;
+  onSelectSong?: (song: Data.SongListItem, index: number) => void;
 }
 
-function AlbumDetail({ data }: AlbumDetailProps) {
+function AlbumDetail({ data, onSelectSong }: AlbumDetailProps) {
   if (!data) return null;
   return (
     <div>
       <AlbumDetailTopDesc data={data} />
       <AlbumDetailMenu />
-      <SongList songs={data.tracks} collectCount={data.subscribedCount} showCollect showBackground />
+      <SongList
+        songs={data.tracks}
+        collectCount={data.subscribedCount}
+        showCollect
+        showBackground
+        onItemClick={onSelectSong}
+      />
     </div>
   );
 }

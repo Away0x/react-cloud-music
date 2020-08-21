@@ -5,6 +5,7 @@ import { useMount } from 'ahooks';
 
 import { SingersRoutePath } from 'constants/router';
 import SingersContainer, { categoryTypes, alphaTypes } from 'containers/SingersContainer';
+import { useListenThemeChange } from 'containers/ThemeContainer';
 import HorizenList from 'components/HorizenList';
 import SingerList from 'components/SingerList';
 import Scroll, { ScrollerHandlers } from 'components/Scroll';
@@ -31,6 +32,7 @@ function Singers({ children }: SingersProps) {
     loadMore,
     refresh,
   } = SingersContainer.useContainer();
+  useListenThemeChange();
   const scrollRef = useRef<ScrollerHandlers | null>(null);
 
   const handleUpdateCatetory = useCallback(

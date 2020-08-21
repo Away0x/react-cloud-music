@@ -3,7 +3,7 @@ import styled from 'styled-components';
 const StyledRank = styled.div`
   position: fixed;
   top: 90px;
-  bottom: 0;
+  bottom: ${({ theme }) => theme.pageBottom + 'px'};
   width: 100%;
 `;
 

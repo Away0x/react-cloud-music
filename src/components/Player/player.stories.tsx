@@ -1604,6 +1604,7 @@ export const DefaultNormalPlayer = () => {
   const [mode, setMode] = useState(PlayMode.loop);
   const [playing, setPlaying] = useState(false);
   const [currentTime, setCurrentTime] = useState(1000);
+  const [speed, setSpeed] = useState(1);
   const duration = 3600;
 
   return (
@@ -1611,6 +1612,7 @@ export const DefaultNormalPlayer = () => {
       <NormalPlayer
         song={playList[0]}
         mode={mode}
+        speed={speed}
         playing={playing}
         currentTime={currentTime}
         duration={duration}
@@ -1626,6 +1628,7 @@ export const DefaultNormalPlayer = () => {
         onPercentProgressBarChange={(p) => {
           setCurrentTime(p * duration);
         }}
+        onSelectSpeed={(s) => setSpeed(s)}
       />
     </div>
   );
@@ -1670,18 +1673,50 @@ export const DefaultPlayerList = () => {
 };
 
 export const DefaultPlayer = () => {
-  // const [fullScreen, setFullScreen] = useState(false);
-  // const [playing, setPlaying] = useState(false);
+  const [list, setList] = useImmer(playList);
+  const [songIndex, setSongIndex] = useState(0);
+  const [mode, setMode] = useState(PlayMode.loop);
+  const [fullScreen, setFullScreen] = useState(false);
+  const [playing, setPlaying] = useState(false);
+  const [speed, setSpeed] = useState(1);
 
   return (
     <div>
-      {/* <Player
-        currentSong={currentSong}
+      <Player
+        mode={mode}
+        currentSong={list[songIndex]}
+        currentSongIndex={songIndex}
+        playList={list}
         playing={playing}
         fullScreen={fullScreen}
-        onToggleFullScreen={(status) => setFullScreen(status)}
-        onPlayButtonClick={(status) => setPlaying(status)}
-      /> */}
+        speed={speed}
+        onToggleFullScreen={(status) => {
+          setFullScreen(status);
+        }}
+        onPlayButtonClick={(status) => {
+          setPlaying(status);
+        }}
+        onChangePlayMode={() => {
+          setMode((mode + 1) % 3);
+        }}
+        onDeleteItemSong={(_, index) => {
+          setList((l) => {
+            l.splice(index, 1);
+          });
+        }}
+        onSelectItemSong={(_, index) => {
+          setSongIndex(index);
+        }}
+        onCleanList={() => {
+          setList((_) => [] as any);
+        }}
+        onSelectSpeed={(s) => {
+          setSpeed(s);
+        }}
+        onError={(msg) => {
+          alert(msg);
+        }}
+      />
     </div>
   );
 };

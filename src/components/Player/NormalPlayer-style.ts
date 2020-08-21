@@ -108,7 +108,11 @@ const Middle = styled.div`
   }
 `;
 
-const CDWrapper = styled.div`
+interface CDWrapperProps {
+  show?: boolean;
+}
+
+const CDWrapper = styled.div<CDWrapperProps>`
   margin: auto;
   position: absolute;
   width: 100%;
@@ -117,6 +121,7 @@ const CDWrapper = styled.div`
   display: flex;
   justify-content: center;
   box-sizing: border-box;
+  visibility: ${({ show = true }) => (show ? 'visible' : 'hidden')};
 `;
 
 const CDNeedle = styled.div`
@@ -177,13 +182,18 @@ const PlayingLyric = styled.div`
   color: rgba(255, 255, 255, 0.5);
 `;
 
-const LyricContainer = styled.div`
+interface LyricContainerProps {
+  show?: boolean;
+}
+
+const LyricContainer = styled.div<LyricContainerProps>`
   position: absolute;
   left: 0;
   right: 0;
   top: 0;
   bottom: 0;
-  /* 遮罩 会有模糊效果，看个人喜欢*/
+  visibility: ${({ show = true }) => (show ? 'visible' : 'hidden')};
+  /* 遮罩: 会有模糊效果，看个人喜欢*/
   /* mask-image: -webkit-gradient(linear,left top,left bottom,color-stop(0,hsla(0,0%,100%,0)),color-stop(10%,hsla(0,0%,100%,.6)),color-stop(25%,#fff),color-stop(75%,#fff),color-stop(85%,hsla(0,0%,100%,.6)),to(hsla(0,0%,100%,0)));
   mask-image: linear-gradient(linear,left top,left bottom,color-stop(0,hsla(0,0%,100%,0)),color-stop(10%,hsla(0,0%,100%,.6)),color-stop(25%,#fff),color-stop(75%,#fff),color-stop(85%,hsla(0,0%,100%,.6)),to(hsla(0,0%,100%,0))); */
 `;
@@ -243,10 +253,11 @@ const ListItem = styled.span<ListItemProps>`
   padding: 5px 5px;
   border-radius: 10px;
   color: ${({ selected = false, theme }) => (selected ? theme.themeColor : theme.fontColorDescV2)};
+  border: 1px solid transparent;
   ${({ selected = false, theme }) =>
     selected &&
     css`
-      border: 1px solid ${theme.themeColor};
+      border-color: ${theme.themeColor};
       opacity: 0.8;
     `}
 `;

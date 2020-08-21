@@ -1,13 +1,13 @@
-import React, { useRef } from 'react';
+import React, { useRef, useState } from 'react';
 import { CSSTransition } from 'react-transition-group';
 import animations from 'create-keyframe-animation';
 
-import { PlayMode, getPlayModeIcon } from 'constants/player';
+import { PlayMode, getPlayModeIcon, speedList } from 'constants/player';
 import { getSingerName } from 'tools/song';
 import { formatPlayTime } from 'tools/time';
 import { prefixStyle } from 'tools/utils';
 import { ProgressBar } from 'components/Progress';
-// import Scroll from 'components/Scroll'
+import Scroll from 'components/Scroll';
 
 import StyledNormalPlayer, {
   Background,
@@ -19,12 +19,12 @@ import StyledNormalPlayer, {
   CDWrapper,
   CDNeedle,
   CDImg,
-  // PlayingLyric,
-  // LyricContainer,
-  // LyricWrapper,
+  PlayingLyric,
+  LyricContainer,
+  LyricWrapper,
   Bottom,
-  // List,
-  // ListItem,
+  List,
+  ListItem,
   ProgressWrapper,
   ProgressTime,
   ProgressBarWrapper,
@@ -56,6 +56,8 @@ interface NormalPlayerProps {
   currentTime?: number;
   duration?: number;
   percent?: number;
+  speed?: number;
+  currentPlayingLyric?: string; // 当前正在播放的歌词
   onChangeMode?: () => void;
   onPrevButtonClick?: () => void;
   onNextButtonClick?: () => void;
@@ -63,6 +65,7 @@ interface NormalPlayerProps {
   onShowListButtonClick?: () => void;
   onPercentProgressBarChange?: (p: number) => void;
   onBackButtonClick?: () => void;
+  onSelectSpeed?: (speed: number) => void;
 }
 
 function NormalPlayer({
@@ -73,6 +76,8 @@ function NormalPlayer({
   currentTime = 0,
   duration = 0,
   percent = 0,
+  speed = 1,
+  currentPlayingLyric,
   onChangeMode,
   onPrevButtonClick,
   onNextButtonClick,
@@ -80,21 +85,18 @@ function NormalPlayer({
   onShowListButtonClick,
   onPercentProgressBarChange,
   onBackButtonClick,
+  onSelectSpeed,
 }: NormalPlayerProps) {
   const playContainerRef = useRef<HTMLDivElement>(null);
   const middleRef = useRef<HTMLDivElement>(null);
 
+  const [currentState, setCurrentState] = useState<'cd' | 'lyric'>('cd');
+
   const { x, y, scale } = usePosAndScale();
   const middleAnimations = {
-    0: {
-      transform: `translate3d(${x}px,${y}px,0) scale(${scale})`,
-    },
-    60: {
-      transform: `translate3d(0, 0, 0) scale(1.1)`,
-    },
-    100: {
-      transform: `translate3d(0, 0, 0) scale(1)`,
-    },
+    0: { transform: `translate3d(${x}px,${y}px,0) scale(${scale})` },
+    60: { transform: `translate3d(0, 0, 0) scale(1.1)` },
+    100: { transform: `translate3d(0, 0, 0) scale(1)` },
   };
 
   return (
@@ -131,6 +133,7 @@ function NormalPlayer({
         if (!middleRef.current) return;
         middleRef.current.style.transition = '';
         middleRef.current.style[transform] = '';
+        setCurrentState('cd');
       }}>
       <StyledNormalPlayer ref={playContainerRef}>
         <Background>
@@ -152,32 +155,53 @@ function NormalPlayer({
           </TopText>
         </Top>
 
-        <Middle ref={middleRef}>
-          <CDWrapper>
-            <CDNeedle className={playing ? '' : 'pause'} />
-            <CDImg>
-              <img className={`${playing ? '' : 'pause'}`} src={song.al.picUrl + '?param=400x400'} alt="cd" />
-            </CDImg>
-            {/* <PlayingLyric></PlayingLyric> */}
-          </CDWrapper>
-          {/* <LyricContainer>
-          <Scroll>
-            <LyricWrapper></LyricWrapper>
-          </Scroll>
-        </LyricContainer> */}
+        <Middle
+          ref={middleRef}
+          onClick={(ev) => {
+            ev.stopPropagation();
+            setCurrentState(currentState === 'cd' ? 'lyric' : 'cd');
+          }}>
+          {/* cd */}
+          <CSSTransition timeout={400} classNames="fade" in={currentState !== 'lyric'}>
+            <CDWrapper show={currentState === 'cd'}>
+              <CDNeedle className={playing ? '' : 'pause'} />
+              <CDImg>
+                <img className={`${playing ? '' : 'pause'}`} src={song.al.picUrl + '?param=400x400'} alt="cd" />
+              </CDImg>
+              <PlayingLyric>{currentPlayingLyric}</PlayingLyric>
+            </CDWrapper>
+          </CSSTransition>
+          {/* lyric */}
+          <CSSTransition timeout={400} classNames="fade" in={currentState === 'lyric'}>
+            <LyricContainer show={currentState === 'lyric'}>
+              <Scroll>
+                <LyricWrapper>
+                  {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20].map((item) => {
+                    return <p key={item}>{item}</p>;
+                  })}
+                </LyricWrapper>
+              </Scroll>
+            </LyricContainer>
+          </CSSTransition>
         </Middle>
 
         <Bottom>
-          {/* <List>
-          <span>倍速听歌</span>
-          {[1, 2, 3].map((item) => {
-            return (
-              <ListItem key={item} selected={false}>
-                {item}
-              </ListItem>
-            );
-          })}
-        </List> */}
+          <List>
+            <span>倍速听歌</span>
+            {speedList.map((item) => {
+              return (
+                <ListItem
+                  key={item.key}
+                  selected={item.key === speed}
+                  onClick={(ev) => {
+                    ev.stopPropagation();
+                    onSelectSpeed && onSelectSpeed(item.key);
+                  }}>
+                  {item.name}
+                </ListItem>
+              );
+            })}
+          </List>
 
           <ProgressWrapper>
             <ProgressTime>{formatPlayTime(currentTime)}</ProgressTime>

@@ -66,6 +66,7 @@ const TitleText = styled.span`
 const TitleClear = styled.span`
   ${extendClick()}
   font-size: ${({ theme }) => theme.fontSizeL};
+  color: ${({ theme }) => theme.themeColor};
 `;
 
 const ScrollWrapper = styled.div`

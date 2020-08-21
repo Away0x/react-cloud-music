@@ -146,4 +146,13 @@ export async function getResultSongsListService(query: string): Promise<Data.Son
 }
 
 /** 获取歌曲详情 */
-export async function getSongDetailRequestService(id: number): Promise<any> {}
+export async function getSongDetailRequestService(...ids: number[]): Promise<Data.SongListItem[]> {
+  const result = await client.get({
+    url: '/song/detail',
+    params: {
+      ids: ids.join(','),
+    },
+  });
+
+  return result.data?.songs || [];
+}

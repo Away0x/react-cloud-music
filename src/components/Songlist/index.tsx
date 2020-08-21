@@ -18,7 +18,7 @@ interface SonglistProps {
   showCollect?: boolean;
   collectCount?: number;
   showBackground?: boolean;
-  onItemClick?: (item: Data.SongListItem) => void;
+  onItemClick?: (item: Data.SongListItem, index: number) => void;
 }
 
 const Songlist = forwardRef<HTMLDivElement, SonglistProps>(
@@ -47,7 +47,7 @@ const Songlist = forwardRef<HTMLDivElement, SonglistProps>(
         <SongListContent>
           {songs.map((song, index) => {
             return (
-              <SongItem key={song.id} onClick={() => onItemClick && onItemClick(song)}>
+              <SongItem key={song.id} onClick={() => onItemClick && onItemClick(song, index)}>
                 <SongItemIndex>{index + 1}</SongItemIndex>
                 <SongItemInfo>
                   <span>{song.name}</span>

@@ -4,6 +4,7 @@ import { useMount } from 'ahooks';
 
 import { RankRoutePath } from 'constants/router';
 import RankContainer from 'containers/RankContainer';
+import { useListenThemeChange } from 'containers/ThemeContainer';
 import Scroll from 'components/Scroll';
 import { Loading } from 'components/Loading';
 import RankList from 'components/RankList';
@@ -26,6 +27,7 @@ interface RankProps {
 function Rank({ children }: RankProps) {
   const history = useHistory();
   const { loading, rankList, getRankList } = RankContainer.useContainer();
+  useListenThemeChange();
 
   const listMap = useMemo(() => {
     const globalStartIndex = getGlobalStartIndex(rankList);

@@ -2,8 +2,10 @@ import React, { useCallback, useState, useRef } from 'react';
 import { useHistory } from 'react-router-dom';
 
 import SearchContainer from 'containers/SearchContainer';
+import PlayerContainer from 'containers/PlayerContainer';
 import SearchBox from 'components/SearchBox';
 import SubPage, { SubPageHandlers } from 'components/SubPage';
+import { getSongDetailRequestService } from 'services';
 
 import StyledSearch from './style';
 import HotKeyList from './HotKeyList';
@@ -23,6 +25,7 @@ function Search() {
     deleteHistory,
     cleanHistory,
   } = SearchContainer.useContainer();
+  const { changePlayList, changeCurrentSongIndex } = PlayerContainer.useContainer();
 
   const subPageRef = useRef<SubPageHandlers>(null);
   const [query, setQuery] = useState('');
@@ -52,6 +55,16 @@ function Search() {
     setQuery(q);
   }, []);
 
+  const handleSelectSong = useCallback(
+    (songid: number) => {
+      getSongDetailRequestService(songid).then((data) => {
+        changePlayList(data || []);
+        changeCurrentSongIndex(0);
+      });
+    },
+    [changePlayList, changeCurrentSongIndex],
+  );
+
   useMount(() => {
     if (!hotList.length) getHotKeyWords();
   });
@@ -73,7 +86,13 @@ function Search() {
           onCleanHistory={cleanHistory}
         />
         {/* 搜索结果 */}
-        <ResultList show={!!query} suggestList={suggestList} songsList={songsList} onItemClick={enterDetail} />
+        <ResultList
+          show={!!query}
+          suggestList={suggestList}
+          songsList={songsList}
+          onItemClick={enterDetail}
+          onSongItemClick={handleSelectSong}
+        />
       </StyledSearch>
     </SubPage>
   );

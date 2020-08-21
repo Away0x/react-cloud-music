@@ -5,6 +5,7 @@ import { forceCheck } from 'react-lazyload';
 
 import { RecommondRoutePath } from 'constants/router';
 import RecommendContainer from 'containers/RecommendContainer';
+import { useListenThemeChange } from 'containers/ThemeContainer';
 import Slider from 'components/Slider';
 import Scroll from 'components/Scroll';
 import { Loading } from 'components/Loading';
@@ -16,9 +17,7 @@ interface RecommendProps {
   children?: React.ReactNode;
 }
 
-function Recommend({
-  children
-}: RecommendProps) {
+function Recommend({ children }: RecommendProps) {
   const {
     loading,
     bannerImages,
@@ -27,6 +26,7 @@ function Recommend({
     getBannerList,
     getRecommendList,
   } = RecommendContainer.useContainer();
+  useListenThemeChange();
   const history = useHistory();
 
   const goDetail = useCallback(

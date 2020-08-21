@@ -5,6 +5,7 @@ import { useRequest } from 'ahooks';
 import { getAlbumDetailService } from 'services';
 
 import ThemeContainer from 'containers/ThemeContainer';
+import PlayerContainer from 'containers/PlayerContainer';
 import AlbumDetail from 'components/AlbumDetail';
 import Scroll from 'components/Scroll';
 import SubPage, { SubPageHandlers } from 'components/SubPage';
@@ -18,6 +19,7 @@ interface AlbumRouteParams {
 function Album() {
   const { id } = useParams<AlbumRouteParams>();
   const { navBarHeight, themeColor } = ThemeContainer.useContainer();
+  const { changePlayList, changeCurrentSongIndex } = PlayerContainer.useContainer();
 
   const subPageRef = useRef<SubPageHandlers>(null);
   const [title, setTitle] = useState('歌单');
@@ -54,12 +56,20 @@ function Album() {
     [albumData, navBarHeight, themeColor],
   );
 
+  const handleSelectSong = useCallback(
+    (_: Data.SongListItem, index: number) => {
+      changePlayList(albumData?.tracks || []);
+      changeCurrentSongIndex(index);
+    },
+    [albumData, changePlayList, changeCurrentSongIndex],
+  );
+
   return (
     <SubPage ref={subPageRef} isMarquee={isMarquee} title={title} loading={loading}>
       <StyledAlbum>
         {albumData && (
           <Scroll bounceTop={false} onScroll={handleScroll}>
-            <AlbumDetail data={albumData} />
+            <AlbumDetail data={albumData} onSelectSong={handleSelectSong} />
           </Scroll>
         )}
       </StyledAlbum>

@@ -18,9 +18,10 @@ interface ResultListProps {
   suggestList: Data.SuggestData | null;
   songsList: Data.SongListItem[];
   onItemClick?: (path: string) => void;
+  onSongItemClick?: (songid: number) => void;
 }
 
-function ResultList({ show = true, suggestList, songsList, onItemClick }: ResultListProps) {
+function ResultList({ show = true, suggestList, songsList, onItemClick, onSongItemClick }: ResultListProps) {
   const singerItemClick = useCallback(
     (item: Data.SingerListItem) => {
       onItemClick && onItemClick(SingersRoutePath.buildDetailPath(item.id));
@@ -35,9 +36,12 @@ function ResultList({ show = true, suggestList, songsList, onItemClick }: Result
     [onItemClick],
   );
 
-  const songItemClick = useCallback((item: Data.SongListItem) => {
-    console.log(item);
-  }, []);
+  const songItemClick = useCallback(
+    (item: Data.SongListItem) => {
+      onSongItemClick && onSongItemClick(item.id);
+    },
+    [onSongItemClick],
+  );
 
   const renderSingers = useCallback(() => {
     if (!suggestList || !suggestList.artists || !suggestList.artists.length) return null;
@@ -65,7 +69,7 @@ function ResultList({ show = true, suggestList, songsList, onItemClick }: Result
   const renderSongs = useCallback(() => {
     return (
       <SongListContent style={{ paddingLeft: '20px' }}>
-        {songsList.map((item) => {
+        {songsList.map((item, index) => {
           return (
             <SongItem key={item.id} onClick={() => songItemClick(item)}>
               <SongItemInfo>
