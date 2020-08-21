@@ -333,7 +333,7 @@ const StyledNormalPlayer = styled.div`
   right: 0;
   top: 0;
   bottom: 0;
-  z-index: 150;
+  z-index: 1500;
   background: ${({ theme }) => theme.backgroundColor};
 
   &.normal-enter,

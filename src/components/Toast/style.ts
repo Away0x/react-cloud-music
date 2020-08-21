@@ -3,7 +3,7 @@ import styled from 'styled-components';
 const StyledToast = styled.div`
   position: fixed;
   bottom: 0;
-  z-index: 1000;
+  z-index: 10000;
   width: 100%;
   height: 50vh;
 
@@ -24,7 +24,7 @@ const StyledToast = styled.div`
 `;
 
 const ToastInner = styled.div`
-  width: 100px;
+  width: 150px;
   height: 30px;
   background-color: rgba(51, 51, 51, 0.8);
   border-radius: 6px;

@@ -33,7 +33,7 @@ function Player({
   currentSong,
   currentSongIndex,
   playList,
-  speed,
+  speed = 1,
   onPlayButtonClick,
   onToggleFullScreen,
   onChangePlayMode,
@@ -44,6 +44,8 @@ function Player({
   onError,
 }: PlayerProps) {
   const audioRef = useRef<HTMLAudioElement>(null);
+  const speedRef = useRef(speed);
+  speedRef.current = speed;
 
   const [duration, setDuration] = useState(1);
   const [currentTime, setCurrentTime] = useState(0);
@@ -122,14 +124,11 @@ function Player({
       return;
     }
 
-    const index = currentSongIndex - 1;
-    if (index < 0) {
-      onError && onError('已经是第一首歌曲了');
-      return;
-    }
+    let index = currentSongIndex - 1;
+    if (index < 0) index = playList.length - 1;
 
     onSelectItemSong && onSelectItemSong(playList[index], index);
-  }, [currentSongIndex, playList, onError, onSelectItemSong, playLoop]);
+  }, [currentSongIndex, playList, onSelectItemSong, playLoop]);
 
   const handleSelectNextSong = useCallback(() => {
     if (playList.length === 1) {
@@ -137,14 +136,11 @@ function Player({
       return;
     }
 
-    const index = currentSongIndex + 1;
-    if (index > playList.length - 1) {
-      onError && onError('已经是最后一首歌曲了');
-      return;
-    }
+    let index = currentSongIndex + 1;
+    if (index > playList.length - 1) index = 0;
 
     onSelectItemSong && onSelectItemSong(playList[index], index);
-  }, [currentSongIndex, playList, onError, onSelectItemSong, playLoop]);
+  }, [currentSongIndex, playList, onSelectItemSong, playLoop]);
 
   const handleSelectSpeed = useCallback(
     (p: number) => {
@@ -163,16 +159,18 @@ function Player({
   }, [onCleanList, onPlayButtonClick, onToggleFullScreen]);
 
   useEffect(() => {
+    if (!playList.length) return;
     if (!currentSong || !audioRef.current) return;
 
     audioRef.current.src = getSongUrl(currentSong.id);
     audioRef.current.autoplay = true;
+    audioRef.current.playbackRate = speedRef.current;
     onPlayButtonClick && onPlayButtonClick(true);
 
     setCurrentTime(0);
     setDuration((currentSong.dt / 1000) | 0);
     // eslint-disable-next-line
-  }, [currentSong]);
+  }, [currentSong, playList]);
 
   useEffect(() => {
     if (!audioRef.current) return;

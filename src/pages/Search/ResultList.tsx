@@ -69,7 +69,7 @@ function ResultList({ show = true, suggestList, songsList, onItemClick, onSongIt
   const renderSongs = useCallback(() => {
     return (
       <SongListContent style={{ paddingLeft: '20px' }}>
-        {songsList.map((item, index) => {
+        {songsList.map((item) => {
           return (
             <SongItem key={item.id} onClick={() => songItemClick(item)}>
               <SongItemInfo>

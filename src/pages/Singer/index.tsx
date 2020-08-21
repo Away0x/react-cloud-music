@@ -29,7 +29,7 @@ const transform = prefixStyle('transform');
 function Singer() {
   const { id } = useParams<SingerRouteParams>();
   const { navBarHeight } = ThemeContainer.useContainer();
-  const { changePlayList, changeCurrentSongIndex } = PlayerContainer.useContainer();
+  const { changePlayList } = PlayerContainer.useContainer();
 
   const initialHeightRef = useRef(0);
   const subPageRef = useRef<SubPageHandlers | null>(null);
@@ -91,10 +91,9 @@ function Singer() {
 
   const handleSelectSong = useCallback(
     (_: Data.SongListItem, index: number) => {
-      changePlayList(data?.hotSongs || []);
-      changeCurrentSongIndex(index);
+      changePlayList(data?.hotSongs || [], index);
     },
-    [data, changePlayList, changeCurrentSongIndex],
+    [data, changePlayList],
   );
 
   useMount(() => {

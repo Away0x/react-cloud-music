@@ -19,7 +19,7 @@ interface AlbumRouteParams {
 function Album() {
   const { id } = useParams<AlbumRouteParams>();
   const { navBarHeight, themeColor } = ThemeContainer.useContainer();
-  const { changePlayList, changeCurrentSongIndex } = PlayerContainer.useContainer();
+  const { changePlayList } = PlayerContainer.useContainer();
 
   const subPageRef = useRef<SubPageHandlers>(null);
   const [title, setTitle] = useState('歌单');
@@ -58,10 +58,9 @@ function Album() {
 
   const handleSelectSong = useCallback(
     (_: Data.SongListItem, index: number) => {
-      changePlayList(albumData?.tracks || []);
-      changeCurrentSongIndex(index);
+      changePlayList(albumData?.tracks || [], index);
     },
-    [albumData, changePlayList, changeCurrentSongIndex],
+    [albumData, changePlayList],
   );
 
   return (

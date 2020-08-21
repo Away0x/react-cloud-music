@@ -1,4 +1,4 @@
-import { useCallback } from 'react';
+import { useCallback, useEffect } from 'react';
 import { createContainer } from 'unstated-next';
 import { useImmer } from 'use-immer';
 
@@ -28,8 +28,11 @@ interface PlayerActions {
   /** 切换歌曲 */
   changeCurrentSongIndex(index: number): void;
   /** 播放列表 */
-  changePlayList(list: Data.SongListItem[]): void;
+  changePlayList(list: Data.SongListItem[], selectIndex?: number): void;
+  /** 删除歌曲 */
+  deleteSong(index: number): void;
   /** 修改播放速度 */
+  changeSpeed(speed: number): void;
 }
 
 type UsePlayer = PlayerState & PlayerComputedState & PlayerActions;
@@ -75,26 +78,61 @@ function usePlayer(): UsePlayer {
   const changeCurrentSongIndex = useCallback(
     (songIndex: number) => {
       const song = playerState.playList[songIndex] || null;
-      setPlayerPageBottom(!!song);
-
       updatePlayerState((state) => {
         state.currentIndex = songIndex;
         state.currentSong = song;
       });
     },
-    [playerState, updatePlayerState, setPlayerPageBottom],
+    [playerState, updatePlayerState],
   );
 
   const changePlayList = useCallback(
-    (list: Data.SongListItem[]) => {
+    (list: Data.SongListItem[], selectIndex = 0) => {
       updatePlayerState((state) => {
         state.playList = list;
+        state.currentIndex = selectIndex;
+        state.currentSong = list.length ? list[selectIndex] : null;
       });
     },
     [updatePlayerState],
   );
 
-  return { ...playerState, changePlayMode, changeFullScreen, changePlaying, changeCurrentSongIndex, changePlayList };
+  const deleteSong = useCallback(
+    (index: number) => {
+      updatePlayerState((state) => {
+        state.playList.splice(index, 1);
+        if (state.playList.length === 0) {
+          state.currentIndex = 0;
+          state.currentSong = null;
+        }
+      });
+    },
+    [updatePlayerState],
+  );
+
+  const changeSpeed = useCallback(
+    (speed: number) => {
+      updatePlayerState((state) => {
+        state.speed = speed;
+      });
+    },
+    [updatePlayerState],
+  );
+
+  useEffect(() => {
+    setPlayerPageBottom(!!playerState.currentSong);
+  }, [playerState.currentSong, setPlayerPageBottom]);
+
+  return {
+    ...playerState,
+    changePlayMode,
+    changeFullScreen,
+    changePlaying,
+    changeCurrentSongIndex,
+    changePlayList,
+    deleteSong,
+    changeSpeed,
+  };
 }
 
 const PlayerContainer = createContainer(usePlayer);

@@ -3,7 +3,12 @@ import { createContainer } from 'unstated-next';
 import { useImmer } from 'use-immer';
 
 import SearchHistoryStorage from 'services/storage/search-history';
-import { getHotKeyWordsService, getSuggestListService, getResultSongsListService } from 'services';
+import {
+  getHotKeyWordsService,
+  getSuggestListService,
+  getResultSongsListService,
+  getSongDetailRequestService,
+} from 'services';
 
 export interface SearchState {
   hotList: Data.HotKeyWordItem[];
@@ -20,6 +25,7 @@ interface SearchActions {
   getSuggestList: (query: string) => void;
   deleteHistory: (query: string) => void;
   cleanHistory: () => void;
+  getSongDetail: (id: number) => Promise<Data.SongListItem[]>;
 }
 
 type UseSearch = SearchState & SearchComputedState & SearchActions;
@@ -94,13 +100,38 @@ function useSearch(): UseSearch {
     });
   }, [updateSearchState]);
 
+  const getSongDetail = useCallback(
+    (id: number) => {
+      updateSearchState((state) => {
+        state.loading = true;
+      });
+
+      return getSongDetailRequestService(id)
+        .then((data) => {
+          updateSearchState((state) => {
+            state.loading = false;
+          });
+
+          return data || [];
+        })
+        .catch((err) => {
+          console.warn('[UseSearch#getSongDetail] error: ', err);
+          updateSearchState((state) => {
+            state.loading = false;
+          });
+          return [] as Data.SongListItem[];
+        });
+    },
+    [updateSearchState],
+  );
+
   useEffect(() => {
     updateSearchState((state) => {
       state.historyList = SearchHistoryStorage.get();
     });
   }, [searchState.songsList, searchState.suggestList, updateSearchState]);
 
-  return { ...searchState, getHotKeyWords, getSuggestList, deleteHistory, cleanHistory };
+  return { ...searchState, getHotKeyWords, getSuggestList, deleteHistory, cleanHistory, getSongDetail };
 }
 
 const SearchContainer = createContainer(useSearch);

@@ -18,6 +18,8 @@ function Player() {
     changePlaying,
     changePlayList,
     changeCurrentSongIndex,
+    deleteSong,
+    changeSpeed,
   } = PlayerContainer.useContainer();
 
   return (
@@ -29,15 +31,19 @@ function Player() {
       currentSong={currentSong}
       speed={speed}
       playList={playList}
-      onChangePlayMode={changePlayMode}
-      onToggleFullScreen={changeFullScreen}
       onPlayButtonClick={changePlaying}
+      onToggleFullScreen={changeFullScreen}
+      onChangePlayMode={changePlayMode}
+      onDeleteItemSong={(_, index) => deleteSong(index)}
+      onSelectItemSong={(_, index) => changeCurrentSongIndex(index)}
       onCleanList={() => {
         changePlayList([]);
         changePlaying(false);
-        changeCurrentSongIndex(-1);
       }}
-      onError={emitShowToastGlobalEvent}
+      onSelectSpeed={changeSpeed}
+      onError={(msg) => {
+        emitShowToastGlobalEvent(msg);
+      }}
     />
   );
 }
