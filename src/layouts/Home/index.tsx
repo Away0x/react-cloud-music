@@ -19,7 +19,11 @@ function HomeLayout({ children }: HomeLayoutProps) {
   return (
     <StyledHome>
       <Drawer width={250} show={showDrawer} onClose={() => setShowDrawer(false)}>
-        <DrawerContent />
+        <DrawerContent
+          closeDrawer={() => {
+            setShowDrawer(false);
+          }}
+        />
       </Drawer>
 
       <Top>

@@ -15,9 +15,11 @@ import HomeContainer from 'containers/HomeContainer';
 import Suspense from 'components/Suspense';
 import { Loading } from 'components/Loading';
 import Toast, { useToast } from 'components/Toast';
+import { GuestRoute } from 'components/Route';
 import HomeLayout from 'layouts/Home';
 
 import NotFound from 'pages/Errors/NotFound';
+const Login = lazy(() => import(/* webpackChunkName: 'login-page' */ 'pages/Login'));
 const Recommend = lazy(() => import(/* webpackChunkName: 'recommend-page' */ 'pages/Recommend'));
 const Singers = lazy(() => import(/* webpackChunkName: 'singers-page' */ 'pages/Singers'));
 const Rank = lazy(() => import(/* webpackChunkName: 'rank-page' */ 'pages/Rank'));
@@ -51,6 +53,13 @@ function RootRoutes() {
           <Route exact path={SpecialRoutePath.Root}>
             <Redirect to={RecommondRoutePath.Root} />
           </Route>
+
+          {/* 登录 */}
+          <GuestRoute exact path={SpecialRoutePath.Login} homeRoutePath={RecommondRoutePath.Root}>
+            <Suspense>
+              <Login />
+            </Suspense>
+          </GuestRoute>
 
           {/* 推荐页 */}
           <Route path={RecommondRoutePath.Root}>

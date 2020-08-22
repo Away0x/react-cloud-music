@@ -5,7 +5,7 @@ const StyledHeader = styled.div`
   box-sizing: border-box;
   padding: 5px 10px;
   padding-top: 0;
-  height: ${({ theme }) => theme.navBarHeight}px;
+  height: ${({ theme }) => theme.navBarHeight + 'px'};
   width: 100%;
   z-index: 100;
   display: flex;

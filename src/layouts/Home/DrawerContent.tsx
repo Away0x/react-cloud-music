@@ -1,11 +1,18 @@
 import React, { useState } from 'react';
+import { useHistory } from 'react-router-dom';
 
 import ThemeContainer, { defaultTheme } from 'containers/ThemeContainer';
 import AuthContainer from 'containers/AuthContainer';
+import { SpecialRoutePath } from 'constants/router';
 
-function DrawerContent() {
+interface DrawerContentProps {
+  closeDrawer?: () => void;
+}
+
+function DrawerContent({ closeDrawer }: DrawerContentProps) {
+  const history = useHistory();
   const { changeTheme } = ThemeContainer.useContainer();
-  const { logged, userData, loginAction, logoutAction } = AuthContainer.useContainer();
+  const { logged, userData, logoutAction } = AuthContainer.useContainer();
 
   const [isDarkTheme, setDarkTheme] = useState(false);
 
@@ -29,7 +36,14 @@ function DrawerContent() {
           </button>
         </>
       ) : (
-        <button type="button" onClick={() => loginAction({ username: 'Away0x', password: '123456' })}>
+        <button
+          type="button"
+          onClick={() => {
+            closeDrawer && closeDrawer();
+            setTimeout(() => {
+              history.push(SpecialRoutePath.Login);
+            }, 300);
+          }}>
           登录
         </button>
       )}
