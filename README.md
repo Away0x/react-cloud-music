@@ -148,4 +148,8 @@ hygen generator new component # 创建 component 命令
   <img title="歌单详情页" alt="歌单详情页" src="./readme/4.png" width="295" />
   <img title="搜索页" alt="搜索页" src="./readme/5.png" width="295" />
   <img title="搜索结果页" alt="搜索结果页" src="./readme/6.png" width="295" />
+  <img title="登录页" alt="登录页" src="./readme/7.png" width="295" />
+  <img title="mini播放器" alt="mini播放器" src="./readme/8.png" width="295" />
+  <img title="歌单列表" alt="歌单列表" src="./readme/9.png" width="295" />
+  <img title="全屏播放器" alt="全屏播放器" src="./readme/10.png" width="295" />
 </p>
