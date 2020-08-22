@@ -7,7 +7,7 @@ import AlbumDetailMenu from './AlbumDetailMenu';
 
 interface AlbumDetailProps {
   data?: Data.AlbumDetail | null;
-  onSelectSong?: (song: Data.SongListItem, index: number) => void;
+  onSelectSong?: (ev: React.MouseEvent, song: Data.SongListItem, index: number) => void;
 }
 
 function AlbumDetail({ data, onSelectSong }: AlbumDetailProps) {

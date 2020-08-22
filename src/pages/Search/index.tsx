@@ -5,6 +5,7 @@ import SearchContainer from 'containers/SearchContainer';
 import PlayerContainer from 'containers/PlayerContainer';
 import SearchBox from 'components/SearchBox';
 import SubPage, { SubPageHandlers } from 'components/SubPage';
+import MusicNote, { MusicNoteHandlers } from 'components/MusicNote';
 
 import StyledSearch from './style';
 import HotKeyList from './HotKeyList';
@@ -28,6 +29,7 @@ function Search() {
   const { changePlayList } = PlayerContainer.useContainer();
 
   const subPageRef = useRef<SubPageHandlers>(null);
+  const musicNoteRef = useRef<MusicNoteHandlers | null>(null);
   const [query, setQuery] = useState('');
 
   const onSearch = useCallback(
@@ -56,9 +58,15 @@ function Search() {
   }, []);
 
   const handleSelectSong = useCallback(
-    (songid: number) => {
+    (ev: React.MouseEvent, songid: number) => {
       getSongDetail(songid).then((data) => {
         changePlayList(data || []);
+      });
+
+      if (!musicNoteRef.current) return;
+      musicNoteRef.current.startAnimation({
+        x: ev.nativeEvent.clientX,
+        y: ev.nativeEvent.clientY,
       });
     },
     [changePlayList, getSongDetail],
@@ -93,6 +101,7 @@ function Search() {
           onSongItemClick={handleSelectSong}
         />
       </StyledSearch>
+      <MusicNote ref={musicNoteRef} />
     </SubPage>
   );
 }

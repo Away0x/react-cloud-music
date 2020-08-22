@@ -9,6 +9,7 @@ import PlayerContainer from 'containers/PlayerContainer';
 import AlbumDetail from 'components/AlbumDetail';
 import Scroll from 'components/Scroll';
 import SubPage, { SubPageHandlers } from 'components/SubPage';
+import MusicNote, { MusicNoteHandlers } from 'components/MusicNote';
 
 import StyledAlbum from './style';
 
@@ -22,6 +23,7 @@ function Album() {
   const { changePlayList } = PlayerContainer.useContainer();
 
   const subPageRef = useRef<SubPageHandlers>(null);
+  const musicNoteRef = useRef<MusicNoteHandlers | null>(null);
   const [title, setTitle] = useState('歌单');
   const [isMarquee, setIsMarquee] = useState(false); // title 是否为跑马灯
 
@@ -57,8 +59,14 @@ function Album() {
   );
 
   const handleSelectSong = useCallback(
-    (_: Data.SongListItem, index: number) => {
+    (ev: React.MouseEvent, _: Data.SongListItem, index: number) => {
       changePlayList(albumData?.tracks || [], index);
+
+      if (!musicNoteRef.current) return;
+      musicNoteRef.current.startAnimation({
+        x: ev.nativeEvent.clientX,
+        y: ev.nativeEvent.clientY,
+      });
     },
     [albumData, changePlayList],
   );
@@ -72,6 +80,7 @@ function Album() {
           </Scroll>
         )}
       </StyledAlbum>
+      <MusicNote ref={musicNoteRef} />
     </SubPage>
   );
 }

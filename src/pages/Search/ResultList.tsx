@@ -18,7 +18,7 @@ interface ResultListProps {
   suggestList: Data.SuggestData | null;
   songsList: Data.SongListItem[];
   onItemClick?: (path: string) => void;
-  onSongItemClick?: (songid: number) => void;
+  onSongItemClick?: (ev: React.MouseEvent, songid: number) => void;
 }
 
 function ResultList({ show = true, suggestList, songsList, onItemClick, onSongItemClick }: ResultListProps) {
@@ -37,8 +37,8 @@ function ResultList({ show = true, suggestList, songsList, onItemClick, onSongIt
   );
 
   const songItemClick = useCallback(
-    (item: Data.SongListItem) => {
-      onSongItemClick && onSongItemClick(item.id);
+    (ev: React.MouseEvent, item: Data.SongListItem) => {
+      onSongItemClick && onSongItemClick(ev, item.id);
     },
     [onSongItemClick],
   );
@@ -71,7 +71,7 @@ function ResultList({ show = true, suggestList, songsList, onItemClick, onSongIt
       <SongListContent style={{ paddingLeft: '20px' }}>
         {songsList.map((item) => {
           return (
-            <SongItem key={item.id} onClick={() => songItemClick(item)}>
+            <SongItem key={item.id} onClick={(ev) => songItemClick(ev, item)}>
               <SongItemInfo>
                 <span>{item.name}</span>
                 <span>

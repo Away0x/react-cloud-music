@@ -9,6 +9,7 @@ import PlayerContainer from 'containers/PlayerContainer';
 import SubPage, { SubPageHandlers } from 'components/SubPage';
 import Scroll, { ScrollerHandlers } from 'components/Scroll';
 import Songlist from 'components/Songlist';
+import MusicNote, { MusicNoteHandlers } from 'components/MusicNote';
 
 import StyledSinger, {
   ImgWrapper,
@@ -32,12 +33,13 @@ function Singer() {
   const { changePlayList } = PlayerContainer.useContainer();
 
   const initialHeightRef = useRef(0);
-  const subPageRef = useRef<SubPageHandlers | null>(null);
   const collectBtnRef = useRef<HTMLDivElement>(null);
   const imgWrapperRef = useRef<HTMLDivElement>(null);
   const songListRef = useRef<HTMLDivElement>(null);
-  const songScrollRef = useRef<ScrollerHandlers>(null);
   const bgLayerRef = useRef<HTMLDivElement>(null);
+  const subPageRef = useRef<SubPageHandlers | null>(null);
+  const songScrollRef = useRef<ScrollerHandlers>(null);
+  const musicNoteRef = useRef<MusicNoteHandlers | null>(null);
 
   const { loading, data } = useRequest(() => getSingerInfoService(Number(id)), {
     loadingDelay: 300,
@@ -90,8 +92,14 @@ function Singer() {
   );
 
   const handleSelectSong = useCallback(
-    (_: Data.SongListItem, index: number) => {
+    (ev: React.MouseEvent, _: Data.SongListItem, index: number) => {
       changePlayList(data?.hotSongs || [], index);
+
+      if (!musicNoteRef.current) return;
+      musicNoteRef.current.startAnimation({
+        x: ev.nativeEvent.clientX,
+        y: ev.nativeEvent.clientY,
+      });
     },
     [data, changePlayList],
   );
@@ -123,6 +131,7 @@ function Singer() {
           </Scroll>
         </SongListWrapper>
       </StyledSinger>
+      <MusicNote ref={musicNoteRef} />
     </SubPage>
   );
 }

@@ -1,4 +1,4 @@
-import React, { forwardRef } from 'react';
+import React, { forwardRef, useCallback } from 'react';
 
 import { getSingerName } from 'tools/song';
 
@@ -18,12 +18,19 @@ interface SonglistProps {
   showCollect?: boolean;
   collectCount?: number;
   showBackground?: boolean;
-  onItemClick?: (item: Data.SongListItem, index: number) => void;
+  onItemClick?: (ev: React.MouseEvent, item: Data.SongListItem, index: number) => void;
 }
 
 const Songlist = forwardRef<HTMLDivElement, SonglistProps>(
   ({ songs, onItemClick, showCollect = true, collectCount = 0, showBackground = false }, ref) => {
     const totalCount = songs.length;
+
+    const handleItemClick = useCallback(
+      (ev: React.MouseEvent, song: Data.SongListItem, index: number) => {
+        onItemClick && onItemClick(ev, song, index);
+      },
+      [onItemClick],
+    );
 
     return (
       <StyledSonglist ref={ref} showBackground={showBackground}>
@@ -47,7 +54,7 @@ const Songlist = forwardRef<HTMLDivElement, SonglistProps>(
         <SongListContent>
           {songs.map((song, index) => {
             return (
-              <SongItem key={song.id} onClick={() => onItemClick && onItemClick(song, index)}>
+              <SongItem key={song.id} onClick={(ev) => handleItemClick(ev, song, index)}>
                 <SongItemIndex>{index + 1}</SongItemIndex>
                 <SongItemInfo>
                   <span>{song.name}</span>
