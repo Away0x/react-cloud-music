@@ -19,11 +19,6 @@ const StyledCheckBox = styled.div`
     background-clip: content-box;
     cursor: pointer;
     transition: all 300ms;
-    &:hover {
-      border-color: #fff;
-      background-color: #fff;
-      box-shadow: 0 0 7px #fff;
-    }
   }
   span {
     vertical-align: middle;
