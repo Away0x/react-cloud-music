@@ -46,10 +46,8 @@ export const commonHttpClient = new HTTPClient<CommonRequestConfig, Response.Com
     console.error(err);
     const errMsg = '网络连接异常，请稍后重试';
 
-    if (requestConfig) {
-      if (!requestConfig.hideGlobalErrorToast) {
-        emitShowToastGlobalEvent(errMsg);
-      }
+    if (!requestConfig || !requestConfig.hideGlobalErrorToast) {
+      emitShowToastGlobalEvent(errMsg);
     }
 
     return {
