@@ -156,3 +156,13 @@ export async function getSongDetailRequestService(...ids: number[]): Promise<Dat
 
   return result.data?.songs || [];
 }
+
+/** 获取歌词 */
+export async function getLyricService(id: number): Promise<any> {
+  const result = await client.get({
+    url: '/lyric',
+    params: { id },
+  });
+
+  return result;
+}
